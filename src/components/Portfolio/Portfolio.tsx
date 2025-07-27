@@ -98,17 +98,17 @@ export const Portfolio = () => {
           </div>
           
           {/* Content Area */}
-          <div className="flex-1 px-6 pb-6">
+          <div className="flex-1 px-6 pb-6 overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
               {/* Sidebar */}
-              <div className="lg:col-span-3 h-full">
+              <div className="lg:col-span-3 h-full overflow-hidden">
                 <ProfileSidebar personalInfo={portfolioData.personal_info} />
               </div>
               
               {/* Main Content */}
-              <div className="lg:col-span-9 h-full">
-                <div className="bg-secondary/20 rounded-2xl h-full p-4">
-                  <div className="animate-fade-in">
+              <div className="lg:col-span-9 h-full overflow-hidden">
+                <div className="bg-secondary/20 rounded-2xl h-full p-4 overflow-hidden">
+                  <div className="animate-fade-in h-full overflow-hidden">
                     {renderSection()}
                   </div>
                 </div>
