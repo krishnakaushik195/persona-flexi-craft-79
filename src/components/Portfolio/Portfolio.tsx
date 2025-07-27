@@ -82,25 +82,25 @@ export const Portfolio = () => {
           <UploadButton />
         </div>
         
-        {/* Main Fixed Container */}
-        <div className="bg-portfolio-card rounded-3xl p-6 shadow-2xl h-[85vh] max-h-[800px] overflow-hidden">
+        {/* Main Fixed Container - ABSOLUTE FIXED SIZE */}
+        <div className="bg-portfolio-card rounded-3xl p-6 shadow-2xl w-full h-[700px] overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
-            {/* Left Sidebar */}
-            <div className="lg:col-span-3 overflow-y-auto scrollbar-hide">
+            {/* Left Sidebar - Fixed Height */}
+            <div className="lg:col-span-3 h-full overflow-y-auto scrollbar-hide">
               <ProfileSidebar personalInfo={portfolioData.personal_info} />
             </div>
             
-            {/* Main Content */}
-            <div className="lg:col-span-9 flex flex-col h-full overflow-hidden">
-              {/* Compact Navigation */}
-              <div className="flex-shrink-0 mb-4">
+            {/* Main Content - Fixed Height */}
+            <div className="lg:col-span-9 h-full flex flex-col overflow-hidden">
+              {/* Compact Navigation - Fixed Height */}
+              <div className="flex-shrink-0 h-12 flex items-center mb-4">
                 <Navigation 
                   activeSection={activeSection}
                   onSectionChange={setActiveSection}
                 />
               </div>
               
-              {/* Content Sections with Hidden Scrollbar */}
+              {/* Content Sections - Fixed Height with Scroll */}
               <div className="flex-1 bg-secondary/20 rounded-2xl p-4 overflow-y-auto scrollbar-hide">
                 <div className="animate-fade-in">
                   {renderSection()}
