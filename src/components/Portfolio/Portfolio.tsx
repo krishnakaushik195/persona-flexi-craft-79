@@ -25,7 +25,10 @@ import { useToast } from "@/hooks/use-toast";
 
 export const Portfolio = () => {
   const [activeSection, setActiveSection] = useState("home");
-  const [isEditMode, setIsEditMode] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('edit') === 'true';
+  });
   const [localPortfolioData, setLocalPortfolioData] = useState(null);
   const { portfolioData, loading } = usePortfolioData();
   const { toast } = useToast();
