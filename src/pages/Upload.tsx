@@ -12,11 +12,11 @@ const Upload = () => {
   const { portfolioData, hasData, clearPortfolioData, loading } = usePortfolioData();
 
   const handleUploadSuccess = (data: PortfolioData) => {
-    navigate('/');
+    navigate('/portfolio');
   };
 
   const handleViewPortfolio = () => {
-    navigate('/');
+    navigate('/portfolio');
   };
 
   const handleClearData = () => {
