@@ -57,6 +57,7 @@ export interface PortfolioData {
   education: Education[];
   experience: Experience[];
   achievements: string[];
+  template?: string;
 }
 
 const STORAGE_KEY = 'portfolio_data';
