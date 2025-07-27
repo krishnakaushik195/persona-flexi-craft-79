@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Trash2, Plus } from "lucide-react";
@@ -47,7 +46,7 @@ export const EditableSkillsSection = ({ skills, onSave }: EditableSkillsSectionP
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold text-foreground">Skills</h2>
+        <h2 className="text-3xl font-bold text-foreground">Edit Skills</h2>
         <Button onClick={addSkill} variant="outline">
           <Plus size={16} />
           Add Skill
@@ -65,19 +64,15 @@ export const EditableSkillsSection = ({ skills, onSave }: EditableSkillsSectionP
                     value={skill.name}
                     onChange={(e) => updateSkill(index, "name", e.target.value)}
                   />
-                  <Select 
+                  <select 
                     value={skill.category} 
-                    onValueChange={(value) => updateSkill(index, "category", value)}
+                    onChange={(e) => updateSkill(index, "category", e.target.value)}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                   >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map(cat => (
-                        <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    {categories.map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
                 </div>
                 
                 <div className="space-y-2">
@@ -108,7 +103,7 @@ export const EditableSkillsSection = ({ skills, onSave }: EditableSkillsSectionP
       </div>
 
       <Button onClick={handleSave} className="w-full">
-        Save Changes
+        Save Skills Changes
       </Button>
     </div>
   );
