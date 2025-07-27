@@ -1,0 +1,219 @@
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
+import re
+import json
+import tempfile
+from jsonschema import validate, ValidationError
+import google.generativeai as genai
+from pdfminer.high_level import extract_text
+from pdfminer.pdfparser import PDFParser
+from pdfminer.pdfdocument import PDFDocument
+from pdfminer.pdfpage import PDFPage
+from pdfminer.pdfpage import resolve1
+
+# Load .env variables
+load_dotenv()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "YOUR_API_KEY_HERE")
+genai.configure(api_key=GEMINI_API_KEY)
+model = genai.GenerativeModel("gemini-2.5-flash")
+
+app = FastAPI(title="Resume ➜ JSON API")
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or ["http://localhost:5173"] for Vite
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# JSON schema (loose check)
+resume_schema = {
+    "type": "object",
+    "minProperties": 1,
+    "additionalProperties": True
+}
+
+# --- PDF Utils ---
+def extract_text_from_pdf(file_path):
+    return extract_text(file_path)
+
+def extract_links_from_pdf(file_path):
+    links = []
+    with open(file_path, 'rb') as f:
+        parser = PDFParser(f)
+        doc = PDFDocument(parser)
+        for page in PDFPage.create_pages(doc):
+            if 'Annots' in page.attrs:
+                for annot in resolve1(page.attrs['Annots']):
+                    uri = resolve1(annot).get('A', {}).get('URI', None)
+                    if isinstance(uri, bytes):
+                        uri = uri.decode("utf-8", errors="ignore")
+                    if uri:
+                        links.append(uri)
+    return links
+
+# --- JSON Helpers ---
+def fallback_json_parser(text):
+    try:
+        json_match = re.search(r"\{.*\}", text, re.DOTALL)
+        if json_match:
+            return json.loads(json_match.group())
+        return json.loads(text)
+    except Exception:
+        return None
+
+def validate_json(data):
+    try:
+        validate(data, resume_schema)
+        return True, None
+    except ValidationError as ve:
+        return False, str(ve)
+
+def cross_verify_and_enhance_json(original_json, resume_text, links):
+    prompt = f"""
+You are a meticulous resume auditor.
+
+Given the resume text and hyperlinks, ensure the following JSON is:
+1. Complete
+2. Correct
+3. Contains all sections and values
+
+Resume Text:
+{resume_text}
+
+Hyperlinks:
+{chr(10).join(links)}
+
+JSON:
+{json.dumps(original_json, indent=2)}
+
+Return corrected JSON only.
+"""
+    response = model.generate_content(prompt)
+    return fallback_json_parser(response.text.strip())
+
+
+# --- API Endpoint ---
+@app.post("/parse-resume/")
+async def parse_resume(file: UploadFile = File(...)):
+    if not file.filename.endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Only PDF files are supported.")
+
+    try:
+        # Save PDF to a temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            content = await file.read()
+            tmp.write(content)
+            tmp_path = tmp.name
+
+        # Extract content
+        resume_text = extract_text_from_pdf(tmp_path)
+        resume_links = extract_links_from_pdf(tmp_path)
+
+        if not resume_text.strip():
+            raise HTTPException(status_code=400, detail="Could not extract text from the PDF.")
+
+        # Prepare Gemini prompt
+        prompt = f"""
+You are a resume parser. Your job is to convert the given plain text and links into a structured JSON format suitable for a student portfolio website. Use the following fixed schema. Only update the values based on the provided resume data. Keep placeholders like "/placeholder.svg" where necessary.
+
+### 🔍 Skill Inference Logic:
+- Based on the *frequency*, *recency*, and *impact* of technologies used in **projects**, **experience**, and **achievements**, assign a numeric `level` to each skill from 0 to 100.
+- Example:
+    - 90–100: Expert level; core tech in recent projects or job roles.
+    - 70–89: Strong proficiency; used regularly in work or multiple projects.
+    - 50–69: Intermediate knowledge; used occasionally or in older projects.
+    - 30–49: Basic familiarity; mentioned once or less impactful usage.
+    - Below 30: Avoid unless strongly implied.
+- Ensure `category` is accurate (e.g., "Frontend", "Backend", "Cloud", "DevOps", etc.)
+
+---
+
+Schema:
+{{
+  "personal_info": {{
+    "name": "",
+    "role": "",
+    "tagline": "",
+    "photo_url": "",
+    "location": "",
+    "email": "",
+    "phone": "",
+    "linkedin": "",
+    "github": "",
+    "twitter": ""
+  }},
+  "about": "",
+  "skills": [
+    {{ "name": "", "level": 0, "category": "" }}
+  ],
+  "projects": [
+    {{
+      "title": "",
+      "description": "",
+      "technologies": [""],
+      "link": "",
+      "image": ""
+    }}
+  ],
+  "certifications": [
+    {{
+      "name": "",
+      "issuer": "",
+      "date": "",
+      "image": ""
+    }}
+  ],
+  "education": [
+    {{
+      "degree": "",
+      "institution": "",
+      "year": "",
+      "location": ""
+    }}
+  ],
+  "experience": [
+    {{
+      "position": "",
+      "company": "",
+      "duration": "",
+      "description": ""
+    }}
+  ],
+  "achievements": [""]
+}}
+
+Now parse the following resume details accordingly:
+
+Text:
+{resume_text}
+
+Links:
+{chr(10).join(resume_links)}
+
+Return JSON only.
+"""
+
+        # Get Gemini response
+        response = model.generate_content(prompt)
+        raw_text = response.text.strip()
+        resume_json = fallback_json_parser(raw_text)
+
+        if resume_json is None:
+            raise HTTPException(status_code=500, detail="Gemini did not return valid JSON.")
+
+        resume_json = cross_verify_and_enhance_json(resume_json, resume_text, resume_links)
+        is_valid, err = validate_json(resume_json)
+
+        if not is_valid:
+            return JSONResponse(status_code=200, content={"warning": f"Schema Warning: {err}", "json": resume_json})
+
+        return resume_json
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal Error: {str(e)}")
