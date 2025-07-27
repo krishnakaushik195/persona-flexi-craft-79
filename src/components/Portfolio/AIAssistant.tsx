@@ -29,10 +29,64 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
     }
   }, []);
 
-  const saveApiKey = (key: string) => {
-    localStorage.setItem('gemini_api_key', key);
-    setApiKey(key);
-    setShowSettings(false);
+  const saveApiKey = async (key: string) => {
+    if (!key.trim()) return;
+    
+    setIsLoading(true);
+    try {
+      // Test the API key first
+      await testGeminiAPI(key);
+      
+      // If test succeeds, save the key
+      localStorage.setItem('gemini_api_key', key);
+      setApiKey(key);
+      setShowSettings(false);
+      
+      // Add a success message
+      const successMessage: Message = {
+        role: 'assistant',
+        content: 'API key configured successfully! You can now ask me anything about the portfolio.',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, successMessage]);
+    } catch (error) {
+      // Show error message if API test fails
+      const errorMessage: Message = {
+        role: 'assistant',
+        content: `Failed to configure API key: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const testGeminiAPI = async (key: string) => {
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: "Hi, just testing the API connection. Please respond with a simple greeting."
+            }]
+          }]
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('API key validation failed');
+      }
+
+      const data = await response.json();
+      return data.candidates[0].content.parts[0].text;
+    } catch (error) {
+      throw new Error('Invalid API key or network error');
+    }
   };
 
   const callGeminiAPI = async (userMessage: string) => {
@@ -48,7 +102,7 @@ Based on this information, please answer questions about their background, skill
 
 User question: ${userMessage}`;
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -67,7 +121,7 @@ User question: ${userMessage}`;
     }
 
     const data = await response.json();
-    return data.candidates[0].contents[0].parts[0].text;
+    return data.candidates[0].content.parts[0].text;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -139,20 +193,22 @@ User question: ${userMessage}`;
               type="password"
               placeholder="Enter your Gemini API key..."
               className="flex-1 bg-background"
-              onKeyDown={(e) => {
+              onKeyDown={async (e) => {
                 if (e.key === 'Enter') {
-                  saveApiKey((e.target as HTMLInputElement).value);
+                  await saveApiKey((e.target as HTMLInputElement).value);
                 }
               }}
+              disabled={isLoading}
             />
             <Button
-              onClick={(e) => {
+              onClick={async (e) => {
                 const input = e.currentTarget.previousElementSibling as HTMLInputElement;
-                saveApiKey(input.value);
+                await saveApiKey(input.value);
               }}
               size="sm"
+              disabled={isLoading}
             >
-              Save
+              {isLoading ? 'Testing...' : 'Save'}
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
