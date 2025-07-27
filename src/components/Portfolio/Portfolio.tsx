@@ -26,9 +26,12 @@ import { useToast } from "@/hooks/use-toast";
 export const Portfolio = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [isEditMode, setIsEditMode] = useState(false);
-  const [editedData, setEditedData] = useState(null);
+  const [localPortfolioData, setLocalPortfolioData] = useState(null);
   const { portfolioData, loading } = usePortfolioData();
   const { toast } = useToast();
+
+  // Use local data if available, otherwise use fetched data
+  const currentData = localPortfolioData || portfolioData;
 
   if (loading || !portfolioData) {
     return (
@@ -42,7 +45,40 @@ export const Portfolio = () => {
   }
 
   const handleSaveData = (section: string, data: any) => {
-    // Here you would normally save to a backend or local storage
+    // Update the local portfolio data
+    const updatedData = { ...currentData };
+    
+    switch (section) {
+      case "Profile":
+        updatedData.personal_info = data;
+        break;
+      case "About":
+        updatedData.about = data.about;
+        updatedData.achievements = data.achievements;
+        break;
+      case "Projects":
+        updatedData.projects = data;
+        break;
+      case "Experience":
+        updatedData.experience = data;
+        break;
+      case "Skills":
+        updatedData.skills = data;
+        break;
+      case "Certifications":
+        updatedData.certifications = data;
+        break;
+      case "Education":
+        updatedData.education = data;
+        break;
+    }
+    
+    // Save to local state
+    setLocalPortfolioData(updatedData);
+    
+    // Save to localStorage for persistence
+    localStorage.setItem('portfolioData', JSON.stringify(updatedData));
+    
     toast({
       title: "Changes Saved",
       description: `${section} data has been updated successfully.`,
@@ -57,57 +93,57 @@ export const Portfolio = () => {
         case "contact":
           return (
             <EditableProfileSection 
-              personalInfo={portfolioData.personal_info}
+              personalInfo={currentData.personal_info}
               onSave={(data) => handleSaveData("Profile", data)}
             />
           );
         case "about":
           return (
             <EditableAboutSection 
-              about={portfolioData.about}
-              achievements={portfolioData.achievements}
+              about={currentData.about}
+              achievements={currentData.achievements}
               onSave={(data) => handleSaveData("About", data)}
             />
           );
         case "projects":
           return (
             <EditableProjectsSection 
-              projects={portfolioData.projects}
+              projects={currentData.projects}
               onSave={(data) => handleSaveData("Projects", data)}
             />
           );
         case "experience":
           return (
             <EditableExperienceSection 
-              experience={portfolioData.experience}
+              experience={currentData.experience}
               onSave={(data) => handleSaveData("Experience", data)}
             />
           );
         case "skills":
           return (
             <EditableSkillsSection 
-              skills={portfolioData.skills}
+              skills={currentData.skills}
               onSave={(data) => handleSaveData("Skills", data)}
             />
           );
         case "certifications":
           return (
             <EditableCertificationsSection 
-              certifications={portfolioData.certifications}
+              certifications={currentData.certifications}
               onSave={(data) => handleSaveData("Certifications", data)}
             />
           );
         case "education":
           return (
             <EditableEducationSection 
-              education={portfolioData.education}
+              education={currentData.education}
               onSave={(data) => handleSaveData("Education", data)}
             />
           );
         default:
           return (
             <EditableProfileSection 
-              personalInfo={portfolioData.personal_info}
+              personalInfo={currentData.personal_info}
               onSave={(data) => handleSaveData("Profile", data)}
             />
           );
@@ -120,39 +156,39 @@ export const Portfolio = () => {
         return (
           <div className="w-full">
             <HomeSection 
-              name={portfolioData.personal_info.name}
-              role={portfolioData.personal_info.role}
+              name={currentData.personal_info.name}
+              role={currentData.personal_info.role}
             />
-            <AIAssistant portfolioData={portfolioData} />
+            <AIAssistant portfolioData={currentData} />
           </div>
         );
       case "about":
         return (
           <AboutSection 
-            about={portfolioData.about}
-            achievements={portfolioData.achievements}
+            about={currentData.about}
+            achievements={currentData.achievements}
           />
         );
       case "projects":
-        return <ProjectsSection projects={portfolioData.projects} />;
+        return <ProjectsSection projects={currentData.projects} />;
       case "skills":
-        return <SkillsSection skills={portfolioData.skills} />;
+        return <SkillsSection skills={currentData.skills} />;
       case "certifications":
-        return <CertificationsSection certifications={portfolioData.certifications} />;
+        return <CertificationsSection certifications={currentData.certifications} />;
       case "education":
-        return <EducationSection education={portfolioData.education} />;
+        return <EducationSection education={currentData.education} />;
       case "experience":
-        return <ExperienceSection experience={portfolioData.experience} />;
+        return <ExperienceSection experience={currentData.experience} />;
       case "contact":
-        return <ContactSection personalInfo={portfolioData.personal_info} />;
+        return <ContactSection personalInfo={currentData.personal_info} />;
       default:
         return (
           <div className="w-full">
             <HomeSection 
-              name={portfolioData.personal_info.name}
-              role={portfolioData.personal_info.role}
+              name={currentData.personal_info.name}
+              role={currentData.personal_info.role}
             />
-            <AIAssistant portfolioData={portfolioData} />
+            <AIAssistant portfolioData={currentData} />
           </div>
         );
     }
@@ -200,7 +236,7 @@ export const Portfolio = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
               {/* Sidebar */}
               <div className="lg:col-span-3 h-full overflow-y-auto">
-                <ProfileSidebar personalInfo={portfolioData.personal_info} />
+                <ProfileSidebar personalInfo={currentData.personal_info} />
               </div>
               
               {/* Main Content */}
