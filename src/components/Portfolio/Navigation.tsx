@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
+import { UploadButton } from "./UploadButton";
 import { 
   Home, 
   User, 
   Briefcase, 
   Zap, 
   Award, 
-  GraduationCap, 
+  GraduationCap,
+  Building2, 
   Mail 
 } from "lucide-react";
 
@@ -18,6 +20,7 @@ export const Navigation = ({ activeSection, onSectionChange }: NavigationProps) 
   const navItems = [
     { id: "home", label: "Home", icon: Home },
     { id: "about", label: "About", icon: User },
+    { id: "experience", label: "Experience", icon: Building2 },
     { id: "projects", label: "Projects", icon: Briefcase },
     { id: "skills", label: "Skills", icon: Zap },
     { id: "certifications", label: "Certifications", icon: Award },
@@ -26,8 +29,9 @@ export const Navigation = ({ activeSection, onSectionChange }: NavigationProps) 
   ];
 
   return (
-    <nav className="flex flex-wrap gap-2 mb-8">
-      {navItems.map((item) => {
+    <nav className="flex flex-wrap gap-2 mb-8 justify-between items-center">
+      <div className="flex flex-wrap gap-2">
+        {navItems.map((item) => {
         const Icon = item.icon;
         const isActive = activeSection === item.id;
         
@@ -42,7 +46,9 @@ export const Navigation = ({ activeSection, onSectionChange }: NavigationProps) 
             <span className="hidden sm:inline">{item.label}</span>
           </Button>
         );
-      })}
+        })}
+      </div>
+      <UploadButton />
     </nav>
   );
 };

@@ -8,11 +8,24 @@ import { ProjectsSection } from "./sections/ProjectsSection";
 import { SkillsSection } from "./sections/SkillsSection";
 import { CertificationsSection } from "./sections/CertificationsSection";
 import { EducationSection } from "./sections/EducationSection";
+import { ExperienceSection } from "./sections/ExperienceSection";
 import { ContactSection } from "./sections/ContactSection";
-import portfolioData from "@/data/portfolio.json";
+import { usePortfolioData } from "@/hooks/usePortfolioData";
 
 export const Portfolio = () => {
   const [activeSection, setActiveSection] = useState("home");
+  const { portfolioData, loading } = usePortfolioData();
+
+  if (loading || !portfolioData) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="text-muted-foreground">Loading portfolio...</p>
+        </div>
+      </div>
+    );
+  }
 
   const renderSection = () => {
     switch (activeSection) {
@@ -38,6 +51,8 @@ export const Portfolio = () => {
         return <CertificationsSection certifications={portfolioData.certifications} />;
       case "education":
         return <EducationSection education={portfolioData.education} />;
+      case "experience":
+        return <ExperienceSection experience={portfolioData.experience} />;
       case "contact":
         return <ContactSection personalInfo={portfolioData.personal_info} />;
       default:
