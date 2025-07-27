@@ -31,27 +31,8 @@ const Start = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-          {hasData && (
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer group" onClick={() => navigate("/")}>
-              <CardHeader className="text-center">
-                <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
-                  <Eye className="h-8 w-8 text-primary" />
-                </div>
-                <CardTitle>View Portfolio</CardTitle>
-                <CardDescription>
-                  See your existing portfolio for {portfolioData?.personal_info?.name || "your profile"}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-center">
-                <Button className="w-full" onClick={() => navigate("/")}>
-                  View Portfolio
-                </Button>
-              </CardContent>
-            </Card>
-          )}
-
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer group" onClick={() => navigate("/upload")}>
+        <div className="flex flex-col items-center gap-8 max-w-md mx-auto">
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer group w-full" onClick={() => navigate("/upload")}>
             <CardHeader className="text-center">
               <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
                 <Upload className="h-8 w-8 text-primary" />
@@ -70,6 +51,25 @@ const Start = () => {
               </Button>
             </CardContent>
           </Card>
+
+          {hasData && (
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer group w-full" onClick={() => navigate("/portfolio")}>
+              <CardHeader className="text-center">
+                <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
+                  <Eye className="h-8 w-8 text-primary" />
+                </div>
+                <CardTitle>View Portfolio</CardTitle>
+                <CardDescription>
+                  See your existing portfolio for {portfolioData?.personal_info?.name || "your profile"}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="text-center">
+                <Button className="w-full" onClick={() => navigate("/portfolio")}>
+                  View Portfolio
+                </Button>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {!hasData && (
