@@ -86,16 +86,7 @@ export const Portfolio = () => {
             
             {/* Main Content */}
             <div className="lg:col-span-9 space-y-6">
-              {/* Header with Navigation */}
-              <div className="text-center mb-6">
-                <h1 className="text-4xl font-bold text-foreground mb-2">
-                  {portfolioData.personal_info.name}
-                </h1>
-                <p className="text-xl text-portfolio-text-muted">
-                  {portfolioData.personal_info.role}
-                </p>
-              </div>
-              
+              {/* Navigation */}
               <Navigation 
                 activeSection={activeSection}
                 onSectionChange={setActiveSection}
