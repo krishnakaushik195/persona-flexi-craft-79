@@ -12,9 +12,12 @@ import { EducationSection } from "./sections/EducationSection";
 import { ExperienceSection } from "./sections/ExperienceSection";
 import { ContactSection } from "./sections/ContactSection";
 import { usePortfolioData } from "@/hooks/usePortfolioData";
+import { Button } from "@/components/ui/button";
+import { Edit, Upload } from "lucide-react";
 
 export const Portfolio = () => {
   const [activeSection, setActiveSection] = useState("home");
+  const [isEditMode, setIsEditMode] = useState(false);
   const { portfolioData, loading } = usePortfolioData();
 
   if (loading || !portfolioData) {
@@ -75,9 +78,16 @@ export const Portfolio = () => {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-8">
       <div className="w-full max-w-5xl space-y-6">
-        {/* Upload Resume Button */}
+        {/* Edit Button */}
         <div className="flex justify-end">
-          <UploadButton />
+          <Button 
+            onClick={() => setIsEditMode(!isEditMode)}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <Edit size={16} />
+            {isEditMode ? "Exit Edit" : "Edit Mode"}
+          </Button>
         </div>
         
         {/* Main Container */}
@@ -89,11 +99,16 @@ export const Portfolio = () => {
           
           {/* Navigation Header */}
           <div className="p-6 pb-3">
-            <div className="bg-secondary/20 rounded-2xl p-3">
+            <div className="bg-secondary/20 rounded-2xl p-3 flex justify-between items-center">
               <Navigation 
                 activeSection={activeSection}
                 onSectionChange={setActiveSection}
               />
+              
+              {/* Upload Resume Button - Inside Edit Mode */}
+              {isEditMode && (
+                <UploadButton />
+              )}
             </div>
           </div>
           
