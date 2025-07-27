@@ -75,15 +75,19 @@ export const Portfolio = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="w-full max-w-6xl space-y-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-8">
+      <div className="w-full max-w-5xl space-y-6">
         {/* Upload Resume Button - Outside the main box */}
         <div className="flex justify-end">
           <UploadButton />
         </div>
         
-        {/* Main Fixed Container - ABSOLUTE FIXED SIZE */}
-        <div className="bg-portfolio-card rounded-3xl shadow-2xl w-full h-[700px] overflow-hidden flex flex-col">
+        {/* Main Floating Rectangle Container */}
+        <div className="bg-portfolio-card rounded-3xl w-full h-[500px] overflow-hidden flex flex-col transform hover:scale-[1.02] transition-all duration-300" 
+             style={{ 
+               boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 40px rgba(34, 197, 94, 0.1)',
+               backdropFilter: 'blur(10px)'
+             }}>
           {/* Header Navigation - At the very top of the box */}
           <div className="flex-shrink-0 p-6 pb-3">
             <div className="bg-secondary/20 rounded-2xl p-3">
