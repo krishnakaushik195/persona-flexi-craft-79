@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ProfileSidebar } from "./ProfileSidebar";
+import { UploadButton } from "./UploadButton";
 import { AIAssistant } from "./AIAssistant";
 import { Navigation } from "./Navigation";
 import { HomeSection } from "./sections/HomeSection";
@@ -75,25 +76,32 @@ export const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="w-full max-w-6xl">
-        {/* Main Centered Container */}
-        <div className="bg-portfolio-card rounded-3xl p-8 shadow-2xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
+      <div className="w-full max-w-6xl space-y-4">
+        {/* Upload Resume Button - Outside the main box */}
+        <div className="flex justify-end">
+          <UploadButton />
+        </div>
+        
+        {/* Main Fixed Container */}
+        <div className="bg-portfolio-card rounded-3xl p-6 shadow-2xl h-[85vh] max-h-[800px] overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
             {/* Left Sidebar */}
-            <div className="lg:col-span-3 space-y-6">
+            <div className="lg:col-span-3 overflow-y-auto scrollbar-hide">
               <ProfileSidebar personalInfo={portfolioData.personal_info} />
             </div>
             
             {/* Main Content */}
-            <div className="lg:col-span-9 space-y-6">
-              {/* Navigation */}
-              <Navigation 
-                activeSection={activeSection}
-                onSectionChange={setActiveSection}
-              />
+            <div className="lg:col-span-9 flex flex-col h-full overflow-hidden">
+              {/* Compact Navigation */}
+              <div className="flex-shrink-0 mb-4">
+                <Navigation 
+                  activeSection={activeSection}
+                  onSectionChange={setActiveSection}
+                />
+              </div>
               
-              {/* Content Sections */}
-              <div className="bg-secondary/20 rounded-2xl p-6">
+              {/* Content Sections with Hidden Scrollbar */}
+              <div className="flex-1 bg-secondary/20 rounded-2xl p-4 overflow-y-auto scrollbar-hide">
                 <div className="animate-fade-in">
                   {renderSection()}
                 </div>

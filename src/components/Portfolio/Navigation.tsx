@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { UploadButton } from "./UploadButton";
 import { 
   Home, 
   User, 
@@ -29,9 +28,8 @@ export const Navigation = ({ activeSection, onSectionChange }: NavigationProps) 
   ];
 
   return (
-    <nav className="flex flex-wrap gap-2 mb-8 justify-between items-center">
-      <div className="flex flex-wrap gap-2">
-        {navItems.map((item) => {
+    <nav className="flex flex-wrap gap-1 justify-center">
+      {navItems.map((item) => {
         const Icon = item.icon;
         const isActive = activeSection === item.id;
         
@@ -40,15 +38,14 @@ export const Navigation = ({ activeSection, onSectionChange }: NavigationProps) 
             key={item.id}
             variant={isActive ? "portfolio" : "portfolio-outline"}
             onClick={() => onSectionChange(item.id)}
-            className="flex items-center space-x-2"
+            size="sm"
+            className="flex items-center space-x-1 px-3 py-2"
           >
-            <Icon size={16} />
-            <span className="hidden sm:inline">{item.label}</span>
+            <Icon size={14} />
+            <span className="hidden sm:inline text-xs">{item.label}</span>
           </Button>
         );
-        })}
-      </div>
-      <UploadButton />
+      })}
     </nav>
   );
 };
