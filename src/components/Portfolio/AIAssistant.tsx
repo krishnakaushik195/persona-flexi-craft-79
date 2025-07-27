@@ -24,6 +24,7 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
 
   useEffect(() => {
     const savedApiKey = localStorage.getItem('gemini_api_key');
+    console.log('Checking saved API key:', savedApiKey ? 'Found key' : 'No key found');
     if (savedApiKey) {
       setApiKey(savedApiKey);
     }
@@ -211,6 +212,21 @@ User question: ${userMessage}`;
               {isLoading ? 'Testing...' : 'Save'}
             </Button>
           </div>
+          {apiKey && (
+            <Button
+              onClick={() => {
+                localStorage.removeItem('gemini_api_key');
+                setApiKey('');
+                setMessages([]);
+                setShowSettings(false);
+              }}
+              variant="destructive"
+              size="sm"
+              className="w-full"
+            >
+              Clear API Key
+            </Button>
+          )}
           <p className="text-xs text-muted-foreground">
             Get your API key from{" "}
             <a 
