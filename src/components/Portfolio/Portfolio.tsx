@@ -108,8 +108,8 @@ export const Portfolio = () => {
               
               {/* Content Area - Scrollable */}
               <div className="lg:col-span-9 h-full">
-                <div className="bg-secondary/20 rounded-2xl h-full p-4" style={{ maxHeight: '100%', overflowY: 'scroll' }}>
-                  <div className="animate-fade-in">
+                <div className="bg-secondary/20 rounded-2xl h-full p-4 overflow-y-scroll" style={{ maxHeight: '100%' }}>
+                  <div className="animate-fade-in min-h-full">
                     {renderSection()}
                   </div>
                 </div>
