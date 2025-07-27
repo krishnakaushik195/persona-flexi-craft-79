@@ -104,7 +104,7 @@ export const Portfolio = () => {
               
               {/* Content Body - Scrollable when content exceeds fixed box */}
               <div className="flex-1 bg-secondary/20 rounded-2xl overflow-hidden">
-                <div className="h-full overflow-y-auto scrollbar-hide p-4">
+                <div className="h-full overflow-y-auto p-4">
                   <div className="animate-fade-in">
                     {renderSection()}
                   </div>
