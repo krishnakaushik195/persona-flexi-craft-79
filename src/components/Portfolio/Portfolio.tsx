@@ -86,7 +86,7 @@ export const Portfolio = () => {
         <div className="bg-portfolio-card rounded-3xl shadow-2xl w-full h-[700px] overflow-hidden flex flex-col">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full p-6">
             {/* Left Sidebar - Fixed Width & Height */}
-            <div className="lg:col-span-3 h-full overflow-y-auto scrollbar-hide">
+            <div className="lg:col-span-3 h-full overflow-y-auto">
               <ProfileSidebar personalInfo={portfolioData.personal_info} />
             </div>
             
