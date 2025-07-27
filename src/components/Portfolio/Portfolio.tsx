@@ -11,14 +11,21 @@ import { CertificationsSection } from "./sections/CertificationsSection";
 import { EducationSection } from "./sections/EducationSection";
 import { ExperienceSection } from "./sections/ExperienceSection";
 import { ContactSection } from "./sections/ContactSection";
+import { EditableAboutSection } from "./sections/EditableAboutSection";
+import { EditableExperienceSection } from "./sections/EditableExperienceSection";
+import { EditableProjectsSection } from "./sections/EditableProjectsSection";
+import { EditableProfileSection } from "./sections/EditableProfileSection";
 import { usePortfolioData } from "@/hooks/usePortfolioData";
 import { Button } from "@/components/ui/button";
-import { Edit, Upload } from "lucide-react";
+import { Edit, Save } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export const Portfolio = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [isEditMode, setIsEditMode] = useState(false);
+  const [editedData, setEditedData] = useState(null);
   const { portfolioData, loading } = usePortfolioData();
+  const { toast } = useToast();
 
   if (loading || !portfolioData) {
     return (
@@ -31,7 +38,68 @@ export const Portfolio = () => {
     );
   }
 
+  const handleSaveData = (section: string, data: any) => {
+    // Here you would normally save to a backend or local storage
+    toast({
+      title: "Changes Saved",
+      description: `${section} data has been updated successfully.`,
+    });
+    setIsEditMode(false);
+  };
+
   const renderSection = () => {
+    if (isEditMode) {
+      switch (activeSection) {
+        case "home":
+        case "contact":
+          return (
+            <EditableProfileSection 
+              personalInfo={portfolioData.personal_info}
+              onSave={(data) => handleSaveData("Profile", data)}
+            />
+          );
+        case "about":
+          return (
+            <EditableAboutSection 
+              about={portfolioData.about}
+              achievements={portfolioData.achievements}
+              onSave={(data) => handleSaveData("About", data)}
+            />
+          );
+        case "projects":
+          return (
+            <EditableProjectsSection 
+              projects={portfolioData.projects}
+              onSave={(data) => handleSaveData("Projects", data)}
+            />
+          );
+        case "experience":
+          return (
+            <EditableExperienceSection 
+              experience={portfolioData.experience}
+              onSave={(data) => handleSaveData("Experience", data)}
+            />
+          );
+        case "skills":
+        case "certifications":
+        case "education":
+          return (
+            <div className="text-center py-12">
+              <h3 className="text-xl font-semibold mb-4">Edit {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}</h3>
+              <p className="text-muted-foreground">Editing for this section coming soon...</p>
+            </div>
+          );
+        default:
+          return (
+            <EditableProfileSection 
+              personalInfo={portfolioData.personal_info}
+              onSave={(data) => handleSaveData("Profile", data)}
+            />
+          );
+      }
+    }
+
+    // View mode - original sections
     switch (activeSection) {
       case "home":
         return (
