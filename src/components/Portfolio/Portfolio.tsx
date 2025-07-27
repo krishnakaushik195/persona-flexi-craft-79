@@ -70,24 +70,44 @@ export const Portfolio = () => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left Sidebar */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 space-y-6">
             <ProfileSidebar personalInfo={portfolioData.personal_info} />
+            
+            {/* AI Assistant - Compact Version in Sidebar */}
+            <div className="lg:block hidden">
+              <AIAssistant portfolioData={portfolioData} />
+            </div>
           </div>
           
           {/* Main Content */}
-          <div className="lg:col-span-9 space-y-8">
-            {/* AI Assistant */}
-            <AIAssistant portfolioData={portfolioData} />
+          <div className="lg:col-span-9 space-y-6">
+            {/* Header with Navigation */}
+            <div className="bg-portfolio-card rounded-3xl p-6">
+              <div className="text-center mb-6">
+                <h1 className="text-4xl font-bold text-foreground mb-2">
+                  {portfolioData.personal_info.name}
+                </h1>
+                <p className="text-xl text-portfolio-text-muted">
+                  {portfolioData.personal_info.role}
+                </p>
+              </div>
+              
+              <Navigation 
+                activeSection={activeSection}
+                onSectionChange={setActiveSection}
+              />
+            </div>
             
-            {/* Navigation */}
-            <Navigation 
-              activeSection={activeSection}
-              onSectionChange={setActiveSection}
-            />
+            {/* AI Assistant - Mobile Version */}
+            <div className="lg:hidden block">
+              <AIAssistant portfolioData={portfolioData} />
+            </div>
             
             {/* Content Sections */}
-            <div className="bg-portfolio-card rounded-3xl p-8">
-              {renderSection()}
+            <div className="bg-portfolio-card rounded-3xl p-8 min-h-[600px]">
+              <div className="animate-fade-in">
+                {renderSection()}
+              </div>
             </div>
           </div>
         </div>
