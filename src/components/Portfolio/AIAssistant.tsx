@@ -165,35 +165,35 @@ User question: ${userMessage}`;
   };
 
   return (
-    <div className="bg-portfolio-card rounded-2xl p-4 space-y-3">
+    <div className="bg-portfolio-card rounded-2xl p-6 space-y-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <div className="p-1.5 bg-primary/20 rounded-lg">
-            <Bot size={16} className="text-primary" />
+        <div className="flex items-center space-x-3">
+          <div className="p-2 bg-primary/20 rounded-xl">
+            <Bot size={20} className="text-primary" />
           </div>
-          <h3 className="text-sm font-semibold text-foreground">AI Assistant</h3>
+          <h3 className="text-lg font-semibold text-foreground">AI Assistant</h3>
         </div>
         <Button
           size="icon"
           variant="ghost"
           onClick={() => setShowSettings(!showSettings)}
-          className="rounded-lg h-8 w-8"
+          className="rounded-xl"
         >
-          <Settings size={14} />
+          <Settings size={16} />
         </Button>
       </div>
 
       {showSettings && (
-        <div className="bg-secondary/30 rounded-xl p-3 space-y-3">
+        <div className="bg-secondary/30 rounded-xl p-4 space-y-3">
           <div className="flex items-center space-x-2">
-            <Key size={14} className="text-primary" />
-            <span className="text-xs font-medium">Gemini API Key</span>
+            <Key size={16} className="text-primary" />
+            <span className="text-sm font-medium">Gemini API Key</span>
           </div>
           <div className="space-y-2">
             <Input
               type="password"
               placeholder="Enter your Gemini API key..."
-              className="text-xs bg-background"
+              className="bg-background"
               onKeyDown={async (e) => {
                 if (e.key === 'Enter') {
                   await saveApiKey((e.target as HTMLInputElement).value);
@@ -209,7 +209,7 @@ User question: ${userMessage}`;
                 }}
                 size="sm"
                 disabled={isLoading}
-                className="flex-1 text-xs"
+                className="flex-1"
               >
                 {isLoading ? 'Testing...' : 'Save'}
               </Button>
@@ -223,9 +223,9 @@ User question: ${userMessage}`;
                   }}
                   variant="destructive"
                   size="sm"
-                  className="flex-1 text-xs"
+                  className="flex-1"
                 >
-                  Clear
+                  Clear API Key
                 </Button>
               )}
             </div>
@@ -245,45 +245,45 @@ User question: ${userMessage}`;
       )}
       
       {!apiKey && !showSettings && (
-        <div className="bg-secondary/30 rounded-xl p-3">
-          <div className="flex items-start space-x-2">
+        <div className="bg-secondary/30 rounded-xl p-4">
+          <div className="flex items-start space-x-3">
             <div className="p-1 bg-primary/20 rounded-lg">
-              <Bot size={12} className="text-primary" />
+              <Bot size={14} className="text-primary" />
             </div>
-            <p className="text-xs text-portfolio-text-muted">
-              Configure your Gemini API key to start chatting!
+            <p className="text-sm text-portfolio-text-muted">
+              Hi! I'm your AI assistant. Please configure your Gemini API key to start chatting!
             </p>
           </div>
         </div>
       )}
 
       {apiKey && messages.length === 0 && (
-        <div className="bg-secondary/30 rounded-xl p-3">
-          <div className="flex items-start space-x-2">
+        <div className="bg-secondary/30 rounded-xl p-4">
+          <div className="flex items-start space-x-3">
             <div className="p-1 bg-primary/20 rounded-lg">
-              <Bot size={12} className="text-primary" />
+              <Bot size={14} className="text-primary" />
             </div>
-            <p className="text-xs text-portfolio-text-muted">
-              Ask me anything about {portfolioData?.personal_info?.name || "this person"}'s portfolio!
+            <p className="text-sm text-portfolio-text-muted">
+              Hi! I'm your AI assistant. Ask me anything about {portfolioData?.personal_info?.name || "this person"}'s background, skills, or experience!
             </p>
           </div>
         </div>
       )}
 
       {messages.length > 0 && (
-        <ScrollArea className="h-48 bg-secondary/30 rounded-xl p-3">
-          <div className="space-y-3">
+        <ScrollArea className="h-64 bg-secondary/30 rounded-xl p-4">
+          <div className="space-y-4">
             {messages.map((message, index) => (
-              <div key={index} className="flex items-start space-x-2">
+              <div key={index} className="flex items-start space-x-3">
                 <div className="p-1 bg-primary/20 rounded-lg">
                   {message.role === 'user' ? (
-                    <User size={12} className="text-primary" />
+                    <User size={14} className="text-primary" />
                   ) : (
-                    <Bot size={12} className="text-primary" />
+                    <Bot size={14} className="text-primary" />
                   )}
                 </div>
                 <div className="flex-1">
-                  <p className="text-xs text-foreground whitespace-pre-wrap">
+                  <p className="text-sm text-foreground whitespace-pre-wrap">
                     {message.content}
                   </p>
                   <span className="text-xs text-muted-foreground">
@@ -293,12 +293,12 @@ User question: ${userMessage}`;
               </div>
             ))}
             {isLoading && (
-              <div className="flex items-start space-x-2">
+              <div className="flex items-start space-x-3">
                 <div className="p-1 bg-primary/20 rounded-lg">
-                  <Bot size={12} className="text-primary" />
+                  <Bot size={14} className="text-primary" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                     Thinking...
                   </p>
                 </div>
@@ -312,8 +312,8 @@ User question: ${userMessage}`;
         <Input
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
-          placeholder={apiKey ? "Ask about portfolio..." : "Configure API key first"}
-          className="flex-1 bg-secondary/50 border-secondary text-xs text-foreground placeholder:text-portfolio-text-muted rounded-lg"
+          placeholder={apiKey ? "Ask about this portfolio..." : "Configure API key first"}
+          className="flex-1 bg-secondary/50 border-secondary text-foreground placeholder:text-portfolio-text-muted rounded-xl"
           disabled={isLoading || !apiKey}
         />
         <Button 
@@ -321,9 +321,9 @@ User question: ${userMessage}`;
           size="icon"
           variant="portfolio"
           disabled={isLoading || !question.trim() || !apiKey}
-          className="rounded-lg h-8 w-8"
+          className="rounded-xl"
         >
-          <Send size={14} />
+          <Send size={16} />
         </Button>
       </form>
     </div>

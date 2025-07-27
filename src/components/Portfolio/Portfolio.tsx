@@ -31,10 +31,16 @@ export const Portfolio = () => {
     switch (activeSection) {
       case "home":
         return (
-          <HomeSection 
-            name={portfolioData.personal_info.name}
-            role={portfolioData.personal_info.role}
-          />
+          <div className="space-y-6">
+            <HomeSection 
+              name={portfolioData.personal_info.name}
+              role={portfolioData.personal_info.role}
+            />
+            {/* AI Assistant in Home Section */}
+            <div className="bg-portfolio-card/50 rounded-2xl p-6">
+              <AIAssistant portfolioData={portfolioData} />
+            </div>
+          </div>
         );
       case "about":
         return (
@@ -57,10 +63,16 @@ export const Portfolio = () => {
         return <ContactSection personalInfo={portfolioData.personal_info} />;
       default:
         return (
-          <HomeSection 
-            name={portfolioData.personal_info.name}
-            role={portfolioData.personal_info.role}
-          />
+          <div className="space-y-6">
+            <HomeSection 
+              name={portfolioData.personal_info.name}
+              role={portfolioData.personal_info.role}
+            />
+            {/* AI Assistant in Home Section */}
+            <div className="bg-portfolio-card/50 rounded-2xl p-6">
+              <AIAssistant portfolioData={portfolioData} />
+            </div>
+          </div>
         );
     }
   };
@@ -74,11 +86,6 @@ export const Portfolio = () => {
             {/* Left Sidebar */}
             <div className="lg:col-span-3 space-y-6">
               <ProfileSidebar personalInfo={portfolioData.personal_info} />
-              
-              {/* AI Assistant - Compact Version in Sidebar */}
-              <div className="lg:block hidden">
-                <AIAssistant portfolioData={portfolioData} />
-              </div>
             </div>
             
             {/* Main Content */}
@@ -97,11 +104,6 @@ export const Portfolio = () => {
                 activeSection={activeSection}
                 onSectionChange={setActiveSection}
               />
-              
-              {/* AI Assistant - Mobile Version */}
-              <div className="lg:hidden block">
-                <AIAssistant portfolioData={portfolioData} />
-              </div>
               
               {/* Content Sections */}
               <div className="bg-secondary/20 rounded-2xl p-6 min-h-[500px]">
