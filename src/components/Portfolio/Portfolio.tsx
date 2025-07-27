@@ -31,15 +31,13 @@ export const Portfolio = () => {
     switch (activeSection) {
       case "home":
         return (
-          <div className="space-y-6">
+          <div className="w-full">
             <HomeSection 
               name={portfolioData.personal_info.name}
               role={portfolioData.personal_info.role}
             />
-            {/* AI Assistant in Home Section */}
-            <div className="bg-portfolio-card/50 rounded-2xl p-6">
-              <AIAssistant portfolioData={portfolioData} />
-            </div>
+            {/* AI Assistant takes full space in Home Section */}
+            <AIAssistant portfolioData={portfolioData} />
           </div>
         );
       case "about":
@@ -63,15 +61,13 @@ export const Portfolio = () => {
         return <ContactSection personalInfo={portfolioData.personal_info} />;
       default:
         return (
-          <div className="space-y-6">
+          <div className="w-full">
             <HomeSection 
               name={portfolioData.personal_info.name}
               role={portfolioData.personal_info.role}
             />
-            {/* AI Assistant in Home Section */}
-            <div className="bg-portfolio-card/50 rounded-2xl p-6">
-              <AIAssistant portfolioData={portfolioData} />
-            </div>
+            {/* AI Assistant takes full space in Home Section */}
+            <AIAssistant portfolioData={portfolioData} />
           </div>
         );
     }
@@ -79,7 +75,7 @@ export const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="w-full max-w-7xl">
+      <div className="w-full max-w-6xl">
         {/* Main Centered Container */}
         <div className="bg-portfolio-card rounded-3xl p-8 shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
@@ -106,7 +102,7 @@ export const Portfolio = () => {
               />
               
               {/* Content Sections */}
-              <div className="bg-secondary/20 rounded-2xl p-6 min-h-[500px]">
+              <div className="bg-secondary/20 rounded-2xl p-6">
                 <div className="animate-fade-in">
                   {renderSection()}
                 </div>
