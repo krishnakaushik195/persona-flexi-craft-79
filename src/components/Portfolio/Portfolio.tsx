@@ -66,23 +66,24 @@ export const Portfolio = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Left Sidebar */}
-          <div className="lg:col-span-3 space-y-6">
-            <ProfileSidebar personalInfo={portfolioData.personal_info} />
-            
-            {/* AI Assistant - Compact Version in Sidebar */}
-            <div className="lg:block hidden">
-              <AIAssistant portfolioData={portfolioData} />
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="w-full max-w-7xl">
+        {/* Main Centered Container */}
+        <div className="bg-portfolio-card rounded-3xl p-8 shadow-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
+            {/* Left Sidebar */}
+            <div className="lg:col-span-3 space-y-6">
+              <ProfileSidebar personalInfo={portfolioData.personal_info} />
+              
+              {/* AI Assistant - Compact Version in Sidebar */}
+              <div className="lg:block hidden">
+                <AIAssistant portfolioData={portfolioData} />
+              </div>
             </div>
-          </div>
-          
-          {/* Main Content */}
-          <div className="lg:col-span-9 space-y-6">
-            {/* Header with Navigation */}
-            <div className="bg-portfolio-card rounded-3xl p-6">
+            
+            {/* Main Content */}
+            <div className="lg:col-span-9 space-y-6">
+              {/* Header with Navigation */}
               <div className="text-center mb-6">
                 <h1 className="text-4xl font-bold text-foreground mb-2">
                   {portfolioData.personal_info.name}
@@ -96,17 +97,17 @@ export const Portfolio = () => {
                 activeSection={activeSection}
                 onSectionChange={setActiveSection}
               />
-            </div>
-            
-            {/* AI Assistant - Mobile Version */}
-            <div className="lg:hidden block">
-              <AIAssistant portfolioData={portfolioData} />
-            </div>
-            
-            {/* Content Sections */}
-            <div className="bg-portfolio-card rounded-3xl p-8 min-h-[600px]">
-              <div className="animate-fade-in">
-                {renderSection()}
+              
+              {/* AI Assistant - Mobile Version */}
+              <div className="lg:hidden block">
+                <AIAssistant portfolioData={portfolioData} />
+              </div>
+              
+              {/* Content Sections */}
+              <div className="bg-secondary/20 rounded-2xl p-6 min-h-[500px]">
+                <div className="animate-fade-in">
+                  {renderSection()}
+                </div>
               </div>
             </div>
           </div>
