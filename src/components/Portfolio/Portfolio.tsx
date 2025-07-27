@@ -77,7 +77,7 @@ export const Portfolio = () => {
           {/* Main Content */}
           <div className="lg:col-span-9 space-y-8">
             {/* AI Assistant */}
-            <AIAssistant />
+            <AIAssistant portfolioData={portfolioData} />
             
             {/* Navigation */}
             <Navigation 
