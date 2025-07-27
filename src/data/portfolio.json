@@ -1,0 +1,90 @@
+{
+  "personal_info": {
+    "name": "Krishna Kaushik",
+    "role": "Platform Engineer",
+    "tagline": "Crafting Intelligent Experiences with Code + Creativity",
+    "photo_url": "/placeholder.svg",
+    "location": "Visakhapatnam, Andhra Pradesh",
+    "email": "krishnakaushik195@gmail.com",
+    "phone": "+91 7207418556",
+    "linkedin": "https://www.linkedin.com/in/krishna-kaushik/",
+    "github": "https://github.com/krishnakaushik195",
+    "twitter": "https://twitter.com/"
+  },
+  "about": "Passionate Platform Engineer with expertise in building scalable, intelligent systems. I combine technical excellence with creative problem-solving to deliver exceptional user experiences. My journey spans full-stack development, cloud platforms, and emerging technologies.",
+  "skills": [
+    { "name": "React", "level": 90, "category": "Frontend" },
+    { "name": "Node.js", "level": 85, "category": "Backend" },
+    { "name": "AWS", "level": 80, "category": "Cloud" },
+    { "name": "Docker", "level": 85, "category": "DevOps" },
+    { "name": "Python", "level": 75, "category": "Backend" },
+    { "name": "TypeScript", "level": 90, "category": "Frontend" },
+    { "name": "Kubernetes", "level": 70, "category": "DevOps" },
+    { "name": "MongoDB", "level": 80, "category": "Database" }
+  ],
+  "projects": [
+    {
+      "title": "AI-Powered Analytics Dashboard",
+      "description": "Built a comprehensive analytics platform with real-time data visualization and machine learning insights.",
+      "technologies": ["React", "Python", "TensorFlow", "AWS"],
+      "link": "https://github.com/krishnakaushik195",
+      "image": "/placeholder.svg"
+    },
+    {
+      "title": "Microservices Architecture",
+      "description": "Designed and implemented a scalable microservices architecture serving millions of users.",
+      "technologies": ["Node.js", "Docker", "Kubernetes", "Redis"],
+      "link": "https://github.com/krishnakaushik195",
+      "image": "/placeholder.svg"
+    },
+    {
+      "title": "Real-time Chat Application",
+      "description": "Developed a feature-rich chat application with real-time messaging and file sharing capabilities.",
+      "technologies": ["React", "Socket.io", "Express", "MongoDB"],
+      "link": "https://github.com/krishnakaushik195",
+      "image": "/placeholder.svg"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "AWS Certified Solutions Architect",
+      "issuer": "Amazon Web Services",
+      "date": "2023",
+      "image": "/placeholder.svg"
+    },
+    {
+      "name": "Kubernetes Certified Administrator",
+      "issuer": "Cloud Native Computing Foundation",
+      "date": "2023",
+      "image": "/placeholder.svg"
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor of Technology in Computer Science",
+      "institution": "GITAM University",
+      "year": "2020",
+      "location": "Visakhapatnam, India"
+    }
+  ],
+  "experience": [
+    {
+      "position": "Senior Platform Engineer",
+      "company": "Tech Corp",
+      "duration": "2022 - Present",
+      "description": "Leading platform engineering initiatives, architecting scalable solutions, and mentoring junior developers."
+    },
+    {
+      "position": "Full Stack Developer",
+      "company": "StartupXYZ",
+      "duration": "2020 - 2022",
+      "description": "Developed and maintained multiple web applications using modern technologies and best practices."
+    }
+  ],
+  "achievements": [
+    "Led migration to microservices architecture, reducing system downtime by 60%",
+    "Implemented CI/CD pipelines, improving deployment frequency by 300%",
+    "Mentored 5+ junior developers, with 100% retention rate",
+    "Contributed to open-source projects with 1000+ GitHub stars"
+  ]
+}
