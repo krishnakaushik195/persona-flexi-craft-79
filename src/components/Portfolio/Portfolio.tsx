@@ -37,7 +37,6 @@ export const Portfolio = () => {
               name={portfolioData.personal_info.name}
               role={portfolioData.personal_info.role}
             />
-            {/* AI Assistant takes full space in Home Section */}
             <AIAssistant portfolioData={portfolioData} />
           </div>
         );
@@ -67,7 +66,6 @@ export const Portfolio = () => {
               name={portfolioData.personal_info.name}
               role={portfolioData.personal_info.role}
             />
-            {/* AI Assistant takes full space in Home Section */}
             <AIAssistant portfolioData={portfolioData} />
           </div>
         );
@@ -77,19 +75,20 @@ export const Portfolio = () => {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-8">
       <div className="w-full max-w-5xl space-y-6">
-        {/* Upload Resume Button - Outside the main box */}
+        {/* Upload Resume Button */}
         <div className="flex justify-end">
           <UploadButton />
         </div>
         
-        {/* Main Floating Rectangle Container */}
-        <div className="bg-portfolio-card rounded-3xl w-full h-[600px] overflow-hidden flex flex-col transform hover:scale-[1.02] transition-all duration-300"
+        {/* Main Container */}
+        <div className="bg-portfolio-card rounded-3xl w-full h-[600px] flex flex-col transform hover:scale-[1.02] transition-all duration-300" 
              style={{ 
                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 40px rgba(34, 197, 94, 0.1)',
                backdropFilter: 'blur(10px)'
              }}>
-          {/* Header Navigation - At the very top of the box */}
-          <div className="flex-shrink-0 p-6 pb-3">
+          
+          {/* Navigation Header */}
+          <div className="p-6 pb-3">
             <div className="bg-secondary/20 rounded-2xl p-3">
               <Navigation 
                 activeSection={activeSection}
@@ -98,25 +97,18 @@ export const Portfolio = () => {
             </div>
           </div>
           
-          {/* Main Content Area - Sidebar + Content */}
-          <div className="flex-1 px-6 pb-6 overflow-hidden">
+          {/* Content Area */}
+          <div className="flex-1 px-6 pb-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
-              {/* Left Sidebar - Fixed Width & Height */}
-              <div className="lg:col-span-3 h-full overflow-y-auto">
+              {/* Sidebar */}
+              <div className="lg:col-span-3 h-full">
                 <ProfileSidebar personalInfo={portfolioData.personal_info} />
               </div>
               
-              {/* Content Area - Scrollable */}
-              <div className="lg:col-span-9 h-full flex flex-col">
-                <div 
-                  className="bg-secondary/20 rounded-2xl flex-1 p-4 min-h-0"
-                  style={{ 
-                    overflowY: 'auto',
-                    scrollbarWidth: 'thin',
-                    scrollbarColor: 'rgb(134 239 172) transparent'
-                  }}
-                >
-                  <div className="animate-fade-in pb-4">
+              {/* Main Content */}
+              <div className="lg:col-span-9 h-full">
+                <div className="bg-secondary/20 rounded-2xl h-full p-4">
+                  <div className="animate-fade-in">
                     {renderSection()}
                   </div>
                 </div>
