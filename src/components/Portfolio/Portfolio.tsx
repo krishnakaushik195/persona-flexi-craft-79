@@ -83,7 +83,7 @@ export const Portfolio = () => {
         </div>
         
         {/* Main Floating Rectangle Container */}
-        <div className="bg-portfolio-card rounded-3xl w-full h-[500px] overflow-hidden flex flex-col transform hover:scale-[1.02] transition-all duration-300" 
+        <div className="bg-portfolio-card rounded-3xl w-full h-[600px] overflow-hidden flex flex-col transform hover:scale-[1.02] transition-all duration-300"
              style={{ 
                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 40px rgba(34, 197, 94, 0.1)',
                backdropFilter: 'blur(10px)'
