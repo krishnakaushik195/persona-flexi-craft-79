@@ -15,6 +15,9 @@ import { EditableAboutSection } from "./sections/EditableAboutSection";
 import { EditableExperienceSection } from "./sections/EditableExperienceSection";
 import { EditableProjectsSection } from "./sections/EditableProjectsSection";
 import { EditableProfileSection } from "./sections/EditableProfileSection";
+import { EditableSkillsSection } from "./sections/EditableSkillsSection";
+import { EditableCertificationsSection } from "./sections/EditableCertificationsSection";
+import { EditableEducationSection } from "./sections/EditableEducationSection";
 import { usePortfolioData } from "@/hooks/usePortfolioData";
 import { Button } from "@/components/ui/button";
 import { Edit, Save } from "lucide-react";
@@ -81,13 +84,25 @@ export const Portfolio = () => {
             />
           );
         case "skills":
+          return (
+            <EditableSkillsSection 
+              skills={portfolioData.skills}
+              onSave={(data) => handleSaveData("Skills", data)}
+            />
+          );
         case "certifications":
+          return (
+            <EditableCertificationsSection 
+              certifications={portfolioData.certifications}
+              onSave={(data) => handleSaveData("Certifications", data)}
+            />
+          );
         case "education":
           return (
-            <div className="text-center py-12">
-              <h3 className="text-xl font-semibold mb-4">Edit {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}</h3>
-              <p className="text-muted-foreground">Editing for this section coming soon...</p>
-            </div>
+            <EditableEducationSection 
+              education={portfolioData.education}
+              onSave={(data) => handleSaveData("Education", data)}
+            />
           );
         default:
           return (
