@@ -200,8 +200,16 @@ export const Portfolio = () => {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-8">
       <div className="w-full max-w-5xl space-y-6">
-        {/* Edit Button */}
-        <div className="flex justify-end">
+        {/* Page Header */}
+        <div className="flex justify-between items-center">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-bold text-foreground">
+              {currentData.personal_info.name}'s Portfolio
+            </h1>
+            <p className="text-muted-foreground">
+              {currentData.personal_info.role} • Professional Portfolio
+            </p>
+          </div>
           <Button 
             onClick={() => setIsEditMode(!isEditMode)}
             variant="outline"
