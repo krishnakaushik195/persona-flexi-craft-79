@@ -157,11 +157,13 @@ export const Portfolio = () => {
     switch (activeSection) {
       case "home":
         return (
-          <HomeSection 
-            name={currentData.personal_info.name}
-            role={currentData.personal_info.role}
-            portfolioData={currentData}
-          />
+          <div className="w-full">
+            <HomeSection 
+              name={currentData.personal_info.name}
+              role={currentData.personal_info.role}
+            />
+            <AIAssistant portfolioData={currentData} />
+          </div>
         );
       case "about":
         return (
@@ -184,11 +186,13 @@ export const Portfolio = () => {
         return <ContactSection personalInfo={currentData.personal_info} />;
       default:
         return (
-          <HomeSection 
-            name={currentData.personal_info.name}
-            role={currentData.personal_info.role}
-            portfolioData={currentData}
-          />
+          <div className="w-full">
+            <HomeSection 
+              name={currentData.personal_info.name}
+              role={currentData.personal_info.role}
+            />
+            <AIAssistant portfolioData={currentData} />
+          </div>
         );
     }
   };
