@@ -33,37 +33,37 @@ const Landing = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-emerald-950 to-teal-950 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-green-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-200/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-teal-200/30 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-green-200/20 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
       {/* Navigation */}
       <nav className="relative z-10 flex items-center justify-between p-6 lg:px-8 backdrop-blur-sm">
         <div className="flex items-center space-x-3">
           <div className="relative">
-            <Bot className="h-10 w-10 text-emerald-400" />
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full animate-ping"></div>
+            <Bot className="h-10 w-10 text-emerald-600" />
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full animate-ping"></div>
           </div>
           <div>
-            <span className="text-2xl font-bold text-white">ResumeFlow</span>
-            <div className="text-xs text-emerald-300 -mt-1">Transform • Build • Shine</div>
+            <span className="text-2xl font-bold text-gray-800">ResumeFlow</span>
+            <div className="text-xs text-emerald-600 -mt-1">Transform • Build • Shine</div>
           </div>
         </div>
         <div className="hidden md:flex items-center space-x-6">
           <Button 
             onClick={handleSignIn} 
             variant="ghost" 
-            className="text-emerald-300 hover:text-white hover:bg-emerald-500/20"
+            className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-100"
           >
             Sign In
           </Button>
           <Button 
             onClick={handleGetStarted}
-            className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white border-0"
+            className="bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-500 hover:to-teal-500 text-white border-0"
           >
             Get Started
             <ArrowRight className="ml-2 h-4 w-4" />
@@ -83,17 +83,17 @@ const Landing = () => {
                     <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <span className="text-emerald-300 text-sm font-medium">Loved by 10,000+ professionals</span>
+                <span className="text-emerald-600 text-sm font-medium">Loved by 10,000+ professionals</span>
               </div>
               
-              <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+              <h1 className="text-5xl lg:text-7xl font-bold text-gray-800 mb-6 leading-tight">
                 Your Resume
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500">
                   Deserves Better
                 </span>
               </h1>
               
-              <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
                 Transform your static resume into a living, breathing portfolio that tells your story. 
                 Complete with an AI assistant that never sleeps.
               </p>
@@ -102,7 +102,7 @@ const Landing = () => {
                 <Button 
                   onClick={handleGetStarted}
                   size="lg"
-                  className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-8 py-4 text-lg group"
+                  className="bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-500 hover:to-teal-500 text-white px-8 py-4 text-lg group"
                 >
                   <Upload className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform" />
                   Upload & Transform
@@ -110,24 +110,24 @@ const Landing = () => {
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="border-emerald-400/30 text-emerald-400 hover:bg-emerald-400/10 px-8 py-4 text-lg"
+                  className="border-emerald-500/50 text-emerald-600 hover:bg-emerald-100 px-8 py-4 text-lg"
                 >
                   <Eye className="h-5 w-5 mr-2" />
                   See Examples
                 </Button>
               </div>
 
-              <div className="flex items-center space-x-6 text-sm text-gray-400">
+              <div className="flex items-center space-x-6 text-sm text-gray-600">
                 <div className="flex items-center space-x-2">
-                  <Check className="h-4 w-4 text-emerald-400" />
+                  <Check className="h-4 w-4 text-emerald-500" />
                   <span>No coding required</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Check className="h-4 w-4 text-emerald-400" />
+                  <Check className="h-4 w-4 text-emerald-500" />
                   <span>Ready in minutes</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Check className="h-4 w-4 text-emerald-400" />
+                  <Check className="h-4 w-4 text-emerald-500" />
                   <span>AI-powered</span>
                 </div>
               </div>
