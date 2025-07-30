@@ -4,14 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ResumeUpload } from '@/components/Upload/ResumeUpload';
 import { usePortfolioData, PortfolioData } from '@/hooks/usePortfolioData';
-import { FileText, User, Eye, Upload as UploadIcon, Trash2, Plus, Settings } from 'lucide-react';
+import { FileText, User, Eye, Upload as UploadIcon, Trash2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useState } from 'react';
 
 const Upload = () => {
   const navigate = useNavigate();
   const { portfolioData, hasData, clearPortfolioData, loading } = usePortfolioData();
-  const [showUploadForm, setShowUploadForm] = useState(!hasData);
 
   const handleUploadSuccess = (data: PortfolioData) => {
     navigate('/portfolio');
@@ -44,117 +42,69 @@ const Upload = () => {
           <div className="text-center space-y-4">
             <h1 className="text-4xl font-bold text-foreground">Portfolio Manager</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {hasData 
-                ? 'Welcome back! View your existing portfolio or manage your data below.'
-                : 'Upload your resume to automatically generate a beautiful portfolio.'
-              }
+              Upload your resume to automatically generate a beautiful portfolio, or view your existing data.
             </p>
           </div>
 
-          {/* Quick Actions for Returning Users */}
-          {hasData && (
-            <div className="flex justify-center gap-4 flex-wrap">
-              <Button onClick={handleViewPortfolio} size="lg" className="flex items-center gap-2">
-                <Eye className="h-5 w-5" />
-                View My Portfolio
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={() => setShowUploadForm(!showUploadForm)}
-                className="flex items-center gap-2"
-              >
-                <Settings className="h-4 w-4" />
-                Manage Portfolio
-              </Button>
-            </div>
-          )}
-
-          {/* Existing Portfolio Section - Primary for returning users */}
+          {/* Existing Data Section */}
           {hasData && portfolioData && (
-            <div className="space-y-6">
-              <Card className="border-primary bg-primary/5">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-xl">
-                    <User className="h-6 w-6 text-primary" />
-                    Your Portfolio
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <h3 className="text-xl font-bold text-foreground">{portfolioData.personal_info.name}</h3>
-                      <p className="text-lg text-muted-foreground">{portfolioData.personal_info.role}</p>
-                      {portfolioData.personal_info.email && (
-                        <p className="text-sm text-muted-foreground">{portfolioData.personal_info.email}</p>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap gap-3">
-                      <Badge className="text-sm py-1 px-3">{portfolioData.projects.length} Projects</Badge>
-                      <Badge className="text-sm py-1 px-3">{portfolioData.skills.length} Skills</Badge>
-                      <Badge className="text-sm py-1 px-3">{portfolioData.experience.length} Experiences</Badge>
-                      <Badge className="text-sm py-1 px-3">{portfolioData.education.length} Education</Badge>
-                    </div>
+            <Card className="border-primary/20">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <User className="h-5 w-5" />
+                  Current Portfolio Data
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground">{portfolioData.personal_info.name}</h3>
+                    <p className="text-muted-foreground">{portfolioData.personal_info.role}</p>
                   </div>
-
-                  <div className="flex gap-4 flex-wrap">
-                    <Button onClick={handleViewPortfolio} size="lg" className="flex items-center gap-2">
-                      <Eye className="h-5 w-5" />
-                      View Portfolio
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      onClick={() => setShowUploadForm(!showUploadForm)}
-                      className="flex items-center gap-2"
-                    >
-                      <Plus className="h-4 w-4" />
-                      {showUploadForm ? 'Hide Upload' : 'Upload New Resume'}
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      onClick={handleClearData} 
-                      className="flex items-center gap-2 text-destructive hover:text-destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      Clear Data
-                    </Button>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary">{portfolioData.projects.length} Projects</Badge>
+                    <Badge variant="secondary">{portfolioData.skills.length} Skills</Badge>
+                    <Badge variant="secondary">{portfolioData.experience.length} Experiences</Badge>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+                
+                <Alert>
+                  <FileText className="h-4 w-4" />
+                  <AlertDescription>
+                    You have existing portfolio data. Upload a new resume to update it, or view your current portfolio.
+                  </AlertDescription>
+                </Alert>
 
-              {showUploadForm && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Settings className="h-5 w-5" />
-                      Replace Portfolio Data
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <Alert>
-                      <FileText className="h-4 w-4" />
-                      <AlertDescription>
-                        <strong>Warning:</strong> Uploading a new resume will completely replace your existing portfolio data. This action cannot be undone.
-                      </AlertDescription>
-                    </Alert>
-                    <ResumeUpload onUploadSuccess={handleUploadSuccess} />
-                  </CardContent>
-                </Card>
-              )}
-            </div>
+                <div className="flex gap-3 flex-wrap">
+                  <Button onClick={handleViewPortfolio} className="flex items-center gap-2">
+                    <Eye className="h-4 w-4" />
+                    View Portfolio
+                  </Button>
+                  <Button variant="outline" onClick={handleClearData} className="flex items-center gap-2">
+                    <Trash2 className="h-4 w-4" />
+                    Clear Data
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           )}
 
-          {/* New User Upload Section */}
-          {!hasData && (
-            <div className="space-y-6">
-              <div className="text-center">
-                <h2 className="text-2xl font-semibold text-foreground mb-2">Create Your Portfolio</h2>
-                <p className="text-muted-foreground">
-                  Upload your resume and let AI create a stunning portfolio for you
-                </p>
-              </div>
-              <ResumeUpload onUploadSuccess={handleUploadSuccess} />
+          {/* Upload Section */}
+          <div className="space-y-6">
+            <div className="text-center">
+              <h2 className="text-2xl font-semibold text-foreground mb-2">
+                {hasData ? 'Update Your Portfolio' : 'Create Your Portfolio'}
+              </h2>
+              <p className="text-muted-foreground">
+                {hasData 
+                  ? 'Upload a new resume to update your portfolio with fresh data'
+                  : 'Upload your resume and let AI create a stunning portfolio for you'
+                }
+              </p>
             </div>
-          )}
+
+            <ResumeUpload onUploadSuccess={handleUploadSuccess} />
+          </div>
 
           {/* Features */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">

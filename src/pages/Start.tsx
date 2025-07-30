@@ -32,36 +32,22 @@ const Start = () => {
         </div>
 
         <div className="flex flex-col items-center gap-8 max-w-md mx-auto">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer group w-full" onClick={() => navigate("/login")}>
-            <CardHeader className="text-center">
-              <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
-                <Eye className="h-8 w-8 text-primary" />
-              </div>
-              <CardTitle>Sign In</CardTitle>
-              <CardDescription>
-                Access your portfolio editor
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="text-center">
-              <Button className="w-full" onClick={() => navigate("/login")}>
-                Sign In
-              </Button>
-            </CardContent>
-          </Card>
-
           <Card className="hover:shadow-lg transition-shadow cursor-pointer group w-full" onClick={() => navigate("/upload")}>
             <CardHeader className="text-center">
               <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
                 <Upload className="h-8 w-8 text-primary" />
               </div>
-              <CardTitle>Upload Resume</CardTitle>
+              <CardTitle>{hasData ? "Upload New Resume" : "Upload Resume"}</CardTitle>
               <CardDescription>
-                Create a new portfolio from your resume
+                {hasData 
+                  ? "Replace your current portfolio with a new resume"
+                  : "Upload your resume to create a beautiful portfolio"
+                }
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <Button className="w-full" onClick={() => navigate("/upload")}>
-                Upload Resume
+                {hasData ? "Upload New" : "Get Started"}
               </Button>
             </CardContent>
           </Card>

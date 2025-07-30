@@ -25,10 +25,7 @@ import { useToast } from "@/hooks/use-toast";
 
 export const Portfolio = () => {
   const [activeSection, setActiveSection] = useState("home");
-  const [isEditMode, setIsEditMode] = useState(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('edit') === 'true';
-  });
+  const [isEditMode, setIsEditMode] = useState(false);
   const [localPortfolioData, setLocalPortfolioData] = useState(null);
   const { portfolioData, loading } = usePortfolioData();
   const { toast } = useToast();
@@ -79,8 +76,8 @@ export const Portfolio = () => {
     // Save to local state
     setLocalPortfolioData(updatedData);
     
-    // Save to localStorage for persistence (using same key as usePortfolioData)
-    localStorage.setItem('portfolio_data', JSON.stringify(updatedData));
+    // Save to localStorage for persistence
+    localStorage.setItem('portfolioData', JSON.stringify(updatedData));
     
     toast({
       title: "Changes Saved",
@@ -157,12 +154,13 @@ export const Portfolio = () => {
     switch (activeSection) {
       case "home":
         return (
-          <HomeSection 
-            name={currentData.personal_info.name}
-            role={currentData.personal_info.role}
-            personalInfo={currentData.personal_info}
-            portfolioData={currentData}
-          />
+          <div className="w-full">
+            <HomeSection 
+              name={currentData.personal_info.name}
+              role={currentData.personal_info.role}
+            />
+            <AIAssistant portfolioData={currentData} />
+          </div>
         );
       case "about":
         return (
@@ -185,12 +183,13 @@ export const Portfolio = () => {
         return <ContactSection personalInfo={currentData.personal_info} />;
       default:
         return (
-          <HomeSection 
-            name={currentData.personal_info.name}
-            role={currentData.personal_info.role}
-            personalInfo={currentData.personal_info}
-            portfolioData={currentData}
-          />
+          <div className="w-full">
+            <HomeSection 
+              name={currentData.personal_info.name}
+              role={currentData.personal_info.role}
+            />
+            <AIAssistant portfolioData={currentData} />
+          </div>
         );
     }
   };
@@ -242,8 +241,8 @@ export const Portfolio = () => {
               
               {/* Main Content */}
               <div className="lg:col-span-9 h-full overflow-hidden">
-                <div className="bg-secondary/20 rounded-2xl h-full p-2 overflow-y-auto">
-                  <div className="animate-fade-in h-full">
+                <div className="bg-secondary/20 rounded-2xl h-full p-4 overflow-y-auto">
+                  <div className="animate-fade-in">
                     {renderSection()}
                   </div>
                 </div>
