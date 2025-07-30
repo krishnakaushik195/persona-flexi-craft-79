@@ -24,6 +24,7 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
 
   useEffect(() => {
     const savedApiKey = localStorage.getItem('gemini_api_key');
+    console.log('Checking saved API key:', savedApiKey ? 'Found key' : 'No key found');
     if (savedApiKey) {
       setApiKey(savedApiKey);
     }
@@ -63,6 +64,7 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
   };
 
   const testGeminiAPI = async (key: string) => {
+    console.log('Testing Gemini API key...');
     try {
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
         method: 'POST',
@@ -78,20 +80,35 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
         })
       });
 
+      console.log('API test response status:', response.status);
+
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API test error response:', errorText);
+        
         // Handle different error types
         if (response.status === 503) {
           throw new Error('Gemini service is currently overloaded. Please try again in a few minutes.');
         } else if (response.status === 401 || response.status === 403) {
           throw new Error('Invalid API key. Please check your Gemini API key.');
+        } else if (response.status === 400) {
+          throw new Error('Bad request. Please check your API key format.');
         } else {
           throw new Error(`API error: ${response.status} ${response.statusText}`);
         }
       }
 
       const data = await response.json();
+      console.log('API test successful, response:', data);
+      
+      // Check if response has the expected structure
+      if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts) {
+        throw new Error('Unexpected API response format');
+      }
+      
       return data.candidates[0].content.parts[0].text;
     } catch (error) {
+      console.error('Gemini API test error:', error);
       if (error instanceof Error) {
         throw error;
       }
@@ -104,6 +121,8 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
       throw new Error('Gemini API key not configured');
     }
 
+    console.log('Making Gemini API call for user message:', userMessage);
+
     const contextPrompt = `You are an AI assistant helping visitors learn about this person's portfolio. Here is their complete portfolio data:
 
 ${JSON.stringify(portfolioData, null, 2)}
@@ -112,29 +131,52 @@ Based on this information, please answer questions about their background, skill
 
 User question: ${userMessage}`;
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: contextPrompt
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: contextPrompt
+            }]
           }]
-        }]
-      })
-    });
+        })
+      });
 
-    if (!response.ok) {
-      if (response.status === 503) {
-        throw new Error('Gemini service is currently overloaded. Please try again in a few minutes.');
+      console.log('API call response status:', response.status);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API call error response:', errorText);
+        
+        if (response.status === 503) {
+          throw new Error('Gemini service is currently overloaded. Please try again in a few minutes.');
+        } else if (response.status === 401 || response.status === 403) {
+          throw new Error('Invalid API key. Please check your Gemini API key.');
+        } else if (response.status === 400) {
+          throw new Error('Bad request. Please check your request format.');
+        } else {
+          throw new Error(`API error: ${response.status} ${response.statusText}`);
+        }
       }
-      throw new Error('Failed to get response from Gemini');
-    }
 
-    const data = await response.json();
-    return data.candidates[0].content.parts[0].text;
+      const data = await response.json();
+      console.log('API call successful, response structure:', Object.keys(data));
+      
+      // Check if response has the expected structure
+      if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts) {
+        console.error('Unexpected API response structure:', data);
+        throw new Error('Unexpected API response format');
+      }
+      
+      return data.candidates[0].content.parts[0].text;
+    } catch (error) {
+      console.error('Gemini API call error:', error);
+      throw error;
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
