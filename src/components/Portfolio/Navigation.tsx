@@ -28,7 +28,7 @@ export const Navigation = ({ activeSection, onSectionChange }: NavigationProps) 
   ];
 
   return (
-    <nav className="flex flex-wrap gap-1 justify-center">
+    <nav className="flex flex-wrap gap-2 justify-center items-center px-4">
       {navItems.map((item) => {
         const Icon = item.icon;
         const isActive = activeSection === item.id;
@@ -39,10 +39,10 @@ export const Navigation = ({ activeSection, onSectionChange }: NavigationProps) 
             variant={isActive ? "portfolio" : "portfolio-outline"}
             onClick={() => onSectionChange(item.id)}
             size="sm"
-            className="flex items-center space-x-1 px-3 py-2"
+            className="flex items-center justify-center gap-1.5 px-3 py-2 min-w-fit"
           >
             <Icon size={14} />
-            <span className="hidden sm:inline text-xs">{item.label}</span>
+            <span className="hidden sm:inline text-xs whitespace-nowrap">{item.label}</span>
           </Button>
         );
       })}
