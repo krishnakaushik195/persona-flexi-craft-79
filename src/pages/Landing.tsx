@@ -26,8 +26,8 @@ const Landing = () => {
       <nav className="flex items-center justify-between p-6 lg:px-8">
         <div className="flex items-center space-x-2">
           <Bot className="h-8 w-8 text-purple-400" />
-          <span className="text-2xl font-bold text-white">PortfolioAI</span>
-          <span className="text-sm text-purple-300">AI-Powered Portfolios</span>
+          <span className="text-2xl font-bold text-white">Portfolio Builder</span>
+          <span className="text-sm text-purple-300">Transform Your Resume</span>
         </div>
         <div className="hidden md:flex items-center space-x-8">
           <a href="#features" className="text-gray-300 hover:text-white transition-colors">Features</a>
@@ -44,20 +44,20 @@ const Landing = () => {
         <div className="mx-auto max-w-4xl text-center">
           <div className="flex items-center justify-center space-x-2 mb-8">
             <Sparkles className="h-6 w-6 text-purple-400" />
-            <span className="text-purple-300 font-medium">AI-Powered Portfolio Generation</span>
+            <span className="text-purple-300 font-medium">Resume to Portfolio Transformation</span>
             <Sparkles className="h-6 w-6 text-purple-400" />
           </div>
           
           <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl">
-            Create Your Perfect{" "}
+            Transform Your Resume Into{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-              AI-Enhanced Portfolio
+              A Professional Portfolio
             </span>
           </h1>
           
           <p className="mt-6 text-lg leading-8 text-gray-300 max-w-2xl mx-auto">
-            Generate stunning, professional portfolios with our AI-powered system. Stand out to recruiters with 
-            personalized templates and an intelligent chatbot that represents you 24/7.
+            Upload your resume and watch it transform into a stunning, interactive portfolio. 
+            Complete with an AI assistant that knows your background and can chat with visitors about your skills.
           </p>
           
           <div className="mt-10 flex items-center justify-center gap-6">
@@ -106,10 +106,10 @@ const Landing = () => {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-white sm:text-4xl">
-              Why Choose PortfolioAI?
+              Why Choose Our Portfolio Builder?
             </h2>
             <p className="mt-4 text-gray-300">
-              Everything you need to create a professional portfolio that gets noticed
+              Everything you need to transform your resume into a portfolio that stands out
             </p>
           </div>
           
