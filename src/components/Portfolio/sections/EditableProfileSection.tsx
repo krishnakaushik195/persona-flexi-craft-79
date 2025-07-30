@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Camera, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { APIKeySettings } from "../APIKeySettings";
 
 interface PersonalInfo {
   name: string;
@@ -164,6 +165,8 @@ export const EditableProfileSection = ({ personalInfo, onSave }: EditableProfile
           />
         </div>
       </Card>
+
+      <APIKeySettings />
 
       <Button onClick={handleSave} className="w-full">
         Save Profile Changes
