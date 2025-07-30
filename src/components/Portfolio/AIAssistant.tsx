@@ -24,27 +24,20 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
 
   useEffect(() => {
     const savedApiKey = localStorage.getItem('gemini_api_key');
-    console.log('Checking saved API key:', savedApiKey ? 'Found key' : 'No key found');
     if (savedApiKey) {
       setApiKey(savedApiKey);
     }
   }, []);
 
   const saveApiKey = async (key: string) => {
-    if (!key.trim()) {
-      console.log('Empty API key provided');
-      return;
-    }
+    if (!key.trim()) return;
     
-    console.log('Attempting to save API key:', key.substring(0, 10) + '...');
     setIsLoading(true);
     try {
       // Test the API key first
-      console.log('Testing API key...');
       await testGeminiAPI(key);
       
       // If test succeeds, save the key
-      console.log('API key test successful, saving to localStorage');
       localStorage.setItem('gemini_api_key', key);
       setApiKey(key);
       setShowSettings(false);
@@ -56,9 +49,7 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
         timestamp: new Date()
       };
       setMessages(prev => [...prev, successMessage]);
-      console.log('API key saved successfully');
     } catch (error) {
-      console.error('API key save failed:', error);
       // Show error message if API test fails
       const errorMessage: Message = {
         role: 'assistant',
@@ -72,12 +63,8 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
   };
 
   const testGeminiAPI = async (key: string) => {
-    console.log('Testing Gemini API with key:', key.substring(0, 10) + '...');
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
-      console.log('Making request to:', url.substring(0, 80) + '...');
-      
-      const response = await fetch(url, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -91,13 +78,7 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
         })
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response ok:', response.ok);
-
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('API Error Response:', errorText);
-        
         // Handle different error types
         if (response.status === 503) {
           throw new Error('Gemini service is currently overloaded. Please try again in a few minutes.');
@@ -109,16 +90,12 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
       }
 
       const data = await response.json();
-      console.log('API Response data:', data);
-      
-      if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
-        throw new Error('Unexpected API response format');
-      }
-      
       return data.candidates[0].content.parts[0].text;
     } catch (error) {
-      console.error('Gemini API Test Error:', error);
-      throw new Error(`Invalid API key or network error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error('Invalid API key or network error');
     }
   };
 
@@ -150,6 +127,9 @@ User question: ${userMessage}`;
     });
 
     if (!response.ok) {
+      if (response.status === 503) {
+        throw new Error('Gemini service is currently overloaded. Please try again in a few minutes.');
+      }
       throw new Error('Failed to get response from Gemini');
     }
 
@@ -204,15 +184,15 @@ User question: ${userMessage}`;
             <Bot size={20} className="text-primary" />
           </div>
           <h3 className="text-lg font-semibold text-foreground">AI Assistant</h3>
-          <Button
-            size="icon"
-            variant="ghost"
-            onClick={() => setShowSettings(!showSettings)}
-            className="rounded-xl ml-2"
-          >
-            <Settings size={16} />
-          </Button>
         </div>
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={() => setShowSettings(!showSettings)}
+          className="rounded-xl"
+        >
+          <Settings size={16} />
+        </Button>
       </div>
 
       {showSettings && (
