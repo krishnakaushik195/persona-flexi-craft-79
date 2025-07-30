@@ -172,15 +172,15 @@ User question: ${userMessage}`;
             <Bot size={20} className="text-primary" />
           </div>
           <h3 className="text-lg font-semibold text-foreground">AI Assistant</h3>
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={() => setShowSettings(!showSettings)}
+            className="rounded-xl ml-2"
+          >
+            <Settings size={16} />
+          </Button>
         </div>
-        <Button
-          size="icon"
-          variant="ghost"
-          onClick={() => setShowSettings(!showSettings)}
-          className="rounded-xl"
-        >
-          <Settings size={16} />
-        </Button>
       </div>
 
       {showSettings && (
