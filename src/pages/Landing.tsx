@@ -21,19 +21,19 @@ const Landing = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-900 via-green-900 to-teal-900">
       {/* Navigation */}
       <nav className="flex items-center justify-between p-6 lg:px-8">
         <div className="flex items-center space-x-2">
-          <Bot className="h-8 w-8 text-purple-400" />
+          <Bot className="h-8 w-8 text-emerald-400" />
           <span className="text-2xl font-bold text-white">Portfolio Builder</span>
-          <span className="text-sm text-purple-300">Transform Your Resume</span>
+          <span className="text-sm text-emerald-300">Transform Your Resume</span>
         </div>
         <div className="hidden md:flex items-center space-x-8">
           <a href="#features" className="text-gray-300 hover:text-white transition-colors">Features</a>
           <a href="#how-it-works" className="text-gray-300 hover:text-white transition-colors">How it Works</a>
           <a href="#pricing" className="text-gray-300 hover:text-white transition-colors">Pricing</a>
-          <Button onClick={handleSignIn} variant="outline" className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white">
+          <Button onClick={handleSignIn} variant="outline" className="border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-white">
             Sign In
           </Button>
         </div>
@@ -43,14 +43,14 @@ const Landing = () => {
       <div className="px-6 py-24 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <div className="flex items-center justify-center space-x-2 mb-8">
-            <Sparkles className="h-6 w-6 text-purple-400" />
-            <span className="text-purple-300 font-medium">Resume to Portfolio Transformation</span>
-            <Sparkles className="h-6 w-6 text-purple-400" />
+            <Sparkles className="h-6 w-6 text-emerald-400" />
+            <span className="text-emerald-300 font-medium">Resume to Portfolio Transformation</span>
+            <Sparkles className="h-6 w-6 text-emerald-400" />
           </div>
           
           <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl">
             Transform Your Resume Into{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
               A Professional Portfolio
             </span>
           </h1>
@@ -64,7 +64,7 @@ const Landing = () => {
             <Button 
               onClick={handleGetStarted}
               size="lg"
-              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-3 text-lg"
+              className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-8 py-3 text-lg"
             >
               <Upload className="h-5 w-5 mr-2" />
               Get Started Free
@@ -72,7 +72,7 @@ const Landing = () => {
             <Button 
               variant="outline" 
               size="lg"
-              className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white px-8 py-3 text-lg"
+              className="border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-white px-8 py-3 text-lg"
             >
               <Eye className="h-5 w-5 mr-2" />
               Watch Demo
@@ -116,7 +116,7 @@ const Landing = () => {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
               <CardContent className="p-6 text-center">
-                <Zap className="h-12 w-12 text-purple-400 mx-auto mb-4" />
+                <Zap className="h-12 w-12 text-emerald-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-white mb-2">Smart Parsing</h3>
                 <p className="text-gray-300">
                   Our AI instantly extracts and organizes your resume data into beautiful portfolio sections
@@ -126,7 +126,7 @@ const Landing = () => {
             
             <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
               <CardContent className="p-6 text-center">
-                <Sparkles className="h-12 w-12 text-purple-400 mx-auto mb-4" />
+                <Sparkles className="h-12 w-12 text-emerald-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-white mb-2">Beautiful Design</h3>
                 <p className="text-gray-300">
                   Professional templates that adapt to your content and personal brand
@@ -136,7 +136,7 @@ const Landing = () => {
             
             <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
               <CardContent className="p-6 text-center">
-                <Bot className="h-12 w-12 text-purple-400 mx-auto mb-4" />
+                <Bot className="h-12 w-12 text-emerald-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-white mb-2">AI Assistant</h3>
                 <p className="text-gray-300">
                   24/7 intelligent chatbot that answers questions about your background and skills
@@ -148,18 +148,18 @@ const Landing = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-purple-800/50 to-pink-800/50">
+      <section className="py-24 bg-gradient-to-r from-emerald-800/50 to-teal-800/50">
         <div className="mx-auto max-w-4xl text-center px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white sm:text-4xl mb-6">
             Ready to Build Your Perfect Portfolio?
           </h2>
           <p className="text-gray-300 text-lg mb-8">
-            Join thousands of professionals who've transformed their careers with AI-powered portfolios
+            Join thousands of professionals who've transformed their careers with portfolio transformations
           </p>
           <Button 
             onClick={handleGetStarted}
             size="lg"
-            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-12 py-4 text-xl"
+            className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-12 py-4 text-xl"
           >
             <Upload className="h-6 w-6 mr-2" />
             Start Building Now
