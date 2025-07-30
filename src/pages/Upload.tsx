@@ -76,7 +76,7 @@ const Upload = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-xl">
                     <User className="h-6 w-6 text-primary" />
-                    Your Portfolio
+                    <span className="bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">Your Portfolio</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
