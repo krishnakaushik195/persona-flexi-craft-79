@@ -15,7 +15,7 @@ export const HomeSection = ({ name, role, personalInfo, portfolioData }: HomeSec
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center space-y-6 p-8">
+    <div className="relative w-full h-full flex flex-col justify-center items-center space-y-6 p-8">
       {/* User Information */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold text-foreground">{name}</h1>
@@ -58,27 +58,31 @@ export const HomeSection = ({ name, role, personalInfo, portfolioData }: HomeSec
       </div>
 
       {/* Chat Button */}
-      <Popover open={isOpen} onOpenChange={setIsOpen}>
-        <PopoverTrigger asChild>
-          <Button className="flex items-center gap-2" size="lg">
-            <MessageCircle size={18} />
-            Chat with {name}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent 
-          className="w-[700px] h-[400px] p-0 z-50" 
-          side="bottom"
-          align="center"
-          sideOffset={5}
-          collisionPadding={40}
-          avoidCollisions={true}
-          sticky="always"
-        >
-          <div className="h-full">
+      <Button 
+        className="flex items-center gap-2" 
+        size="lg"
+        onClick={() => setIsOpen(true)}
+      >
+        <MessageCircle size={18} />
+        Chat with {name}
+      </Button>
+
+      {/* Full Screen Chat Overlay */}
+      {isOpen && (
+        <div className="absolute inset-0 bg-background/95 backdrop-blur-sm rounded-2xl z-50 p-4">
+          <div className="h-full relative">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="absolute top-2 right-2 z-10"
+              onClick={() => setIsOpen(false)}
+            >
+              ✕
+            </Button>
             <AIAssistant portfolioData={portfolioData} />
           </div>
-        </PopoverContent>
-      </Popover>
+        </div>
+      )}
     </div>
   );
 };
