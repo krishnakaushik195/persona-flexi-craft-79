@@ -67,8 +67,6 @@ export const usePortfolioData = () => {
   const [hasData, setHasData] = useState(false);
 
   useEffect(() => {
-    // Clear cache on page reload since no authentication system
-    localStorage.removeItem(STORAGE_KEY);
     loadPortfolioData();
   }, []);
 
