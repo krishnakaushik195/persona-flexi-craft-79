@@ -79,8 +79,8 @@ export const Portfolio = () => {
     // Save to local state
     setLocalPortfolioData(updatedData);
     
-    // Save to localStorage for persistence
-    localStorage.setItem('portfolioData', JSON.stringify(updatedData));
+    // Save to localStorage for persistence (using same key as usePortfolioData)
+    localStorage.setItem('portfolio_data', JSON.stringify(updatedData));
     
     toast({
       title: "Changes Saved",
@@ -157,13 +157,12 @@ export const Portfolio = () => {
     switch (activeSection) {
       case "home":
         return (
-          <div className="w-full">
-            <HomeSection 
-              name={currentData.personal_info.name}
-              role={currentData.personal_info.role}
-            />
-            <AIAssistant portfolioData={currentData} />
-          </div>
+          <HomeSection 
+            name={currentData.personal_info.name}
+            role={currentData.personal_info.role}
+            personalInfo={currentData.personal_info}
+            portfolioData={currentData}
+          />
         );
       case "about":
         return (
@@ -186,13 +185,12 @@ export const Portfolio = () => {
         return <ContactSection personalInfo={currentData.personal_info} />;
       default:
         return (
-          <div className="w-full">
-            <HomeSection 
-              name={currentData.personal_info.name}
-              role={currentData.personal_info.role}
-            />
-            <AIAssistant portfolioData={currentData} />
-          </div>
+          <HomeSection 
+            name={currentData.personal_info.name}
+            role={currentData.personal_info.role}
+            personalInfo={currentData.personal_info}
+            portfolioData={currentData}
+          />
         );
     }
   };
@@ -244,8 +242,8 @@ export const Portfolio = () => {
               
               {/* Main Content */}
               <div className="lg:col-span-9 h-full overflow-hidden">
-                <div className="bg-secondary/20 rounded-2xl h-full p-4 overflow-y-auto">
-                  <div className="animate-fade-in">
+                <div className="bg-secondary/20 rounded-2xl h-full p-2 overflow-y-auto">
+                  <div className="animate-fade-in h-full">
                     {renderSection()}
                   </div>
                 </div>

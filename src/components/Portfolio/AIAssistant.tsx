@@ -24,7 +24,6 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
 
   useEffect(() => {
     const savedApiKey = localStorage.getItem('gemini_api_key');
-    console.log('Checking saved API key:', savedApiKey ? 'Found key' : 'No key found');
     if (savedApiKey) {
       setApiKey(savedApiKey);
     }
@@ -80,12 +79,22 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
       });
 
       if (!response.ok) {
-        throw new Error('API key validation failed');
+        // Handle different error types
+        if (response.status === 503) {
+          throw new Error('Gemini service is currently overloaded. Please try again in a few minutes.');
+        } else if (response.status === 401 || response.status === 403) {
+          throw new Error('Invalid API key. Please check your Gemini API key.');
+        } else {
+          throw new Error(`API error: ${response.status} ${response.statusText}`);
+        }
       }
 
       const data = await response.json();
       return data.candidates[0].content.parts[0].text;
     } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
       throw new Error('Invalid API key or network error');
     }
   };
@@ -118,6 +127,9 @@ User question: ${userMessage}`;
     });
 
     if (!response.ok) {
+      if (response.status === 503) {
+        throw new Error('Gemini service is currently overloaded. Please try again in a few minutes.');
+      }
       throw new Error('Failed to get response from Gemini');
     }
 
