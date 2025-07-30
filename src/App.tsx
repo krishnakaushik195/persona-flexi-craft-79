@@ -25,7 +25,7 @@ const App = () => (
             <Route path="/" element={<Landing />} />
             <Route path="/start" element={<Start />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/portfolio" element={<Index />} />
+            <Route path="/portfolio" element={<ProtectedRoute><Index /></ProtectedRoute>} />
             <Route path="/upload" element={<ProtectedRoute><Upload /></ProtectedRoute>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
