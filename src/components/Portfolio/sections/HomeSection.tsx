@@ -15,7 +15,7 @@ export const HomeSection = ({ name, role, personalInfo, portfolioData }: HomeSec
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="relative w-full h-full flex flex-col justify-center items-center space-y-6 p-8">
+    <div className="relative w-full min-h-[500px] h-full flex flex-col justify-center items-center space-y-6 p-8">
       {/* User Information */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold text-foreground">{name}</h1>
@@ -69,12 +69,12 @@ export const HomeSection = ({ name, role, personalInfo, portfolioData }: HomeSec
 
       {/* Full Screen Chat Overlay */}
       {isOpen && (
-        <div className="absolute inset-0 bg-background/95 backdrop-blur-sm rounded-2xl z-50 p-4">
-          <div className="h-full relative">
+        <div className="absolute inset-0 bg-background/95 backdrop-blur-sm rounded-2xl z-50 p-2">
+          <div className="h-full w-full relative">
             <Button 
               variant="outline" 
               size="sm" 
-              className="absolute top-2 right-2 z-10"
+              className="absolute top-4 right-4 z-10"
               onClick={() => setIsOpen(false)}
             >
               ✕

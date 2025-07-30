@@ -242,8 +242,8 @@ export const Portfolio = () => {
               
               {/* Main Content */}
               <div className="lg:col-span-9 h-full overflow-hidden">
-                <div className="bg-secondary/20 rounded-2xl h-full p-4 overflow-y-auto">
-                  <div className="animate-fade-in">
+                <div className="bg-secondary/20 rounded-2xl h-full p-2 overflow-y-auto">
+                  <div className="animate-fade-in h-full">
                     {renderSection()}
                   </div>
                 </div>
