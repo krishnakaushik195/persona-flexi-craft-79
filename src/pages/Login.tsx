@@ -31,13 +31,13 @@ const Login = () => {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <Bot className="h-10 w-10 text-purple-400" />
+            <Bot className="h-10 w-10 text-green-400" />
             <span className="text-3xl font-bold text-white">PortfolioAI</span>
           </div>
           <p className="text-gray-300">Sign in to create your portfolio</p>
         </div>
         
-        <Card className="bg-white/10 border-white/20 backdrop-blur-sm">
+        <Card className="bg-green-500/10 border-green-500/20 backdrop-blur-sm">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-white">Welcome Back</CardTitle>
             <CardDescription className="text-gray-300">Sign in to access your portfolio builder</CardDescription>
@@ -49,8 +49,8 @@ const Login = () => {
               </Alert>
             )}
             
-            <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-md">
-              <p className="text-sm text-blue-300">
+            <div className="mb-4 p-3 bg-green-500/10 border border-green-500/20 rounded-md">
+              <p className="text-sm text-green-300">
                 Demo credentials: Use any email with password: <code className="bg-white/10 px-1 rounded">password</code>
               </p>
             </div>
@@ -65,7 +65,7 @@ const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="bg-white/5 border-white/20 text-white placeholder:text-gray-400"
+                  className="bg-black/20 border-green-500/30 text-white placeholder:text-gray-400"
                 />
               </div>
               <div className="space-y-2">
@@ -77,12 +77,12 @@ const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="bg-white/5 border-white/20 text-white placeholder:text-gray-400"
+                  className="bg-black/20 border-green-500/30 text-white placeholder:text-gray-400"
                 />
               </div>
               <Button 
                 type="submit" 
-                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-black font-semibold"
               >
                 Sign In
               </Button>
@@ -94,7 +94,7 @@ const Login = () => {
           <Button 
             variant="ghost" 
             onClick={() => navigate("/")}
-            className="text-gray-300 hover:text-white"
+            className="text-green-400 hover:text-green-300"
           >
             ← Back to Home
           </Button>
