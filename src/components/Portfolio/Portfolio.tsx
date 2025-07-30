@@ -79,8 +79,8 @@ export const Portfolio = () => {
     // Save to local state
     setLocalPortfolioData(updatedData);
     
-    // Save to localStorage for persistence (using same key as usePortfolioData)
-    localStorage.setItem('portfolio_data', JSON.stringify(updatedData));
+    // Save to localStorage for persistence
+    localStorage.setItem('portfolioData', JSON.stringify(updatedData));
     
     toast({
       title: "Changes Saved",
