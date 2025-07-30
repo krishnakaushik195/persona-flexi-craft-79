@@ -72,7 +72,7 @@ const Upload = () => {
           {/* Existing Portfolio Section - Primary for returning users */}
           {hasData && portfolioData && (
             <div className="space-y-6">
-              <Card className="border-primary bg-primary/5">
+              <Card className="border-primary bg-black/40 backdrop-blur-sm border-emerald-500/30">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-xl">
                     <User className="h-6 w-6 text-primary" />
