@@ -66,11 +66,13 @@ export const HomeSection = ({ name, role, personalInfo, portfolioData }: HomeSec
           </Button>
         </PopoverTrigger>
         <PopoverContent 
-          className="w-[800px] h-[500px] p-0" 
+          className="w-[700px] h-[400px] p-0 z-50" 
           side="bottom"
           align="center"
-          sideOffset={10}
-          collisionPadding={20}
+          sideOffset={5}
+          collisionPadding={40}
+          avoidCollisions={true}
+          sticky="always"
         >
           <div className="h-full">
             <AIAssistant portfolioData={portfolioData} />
