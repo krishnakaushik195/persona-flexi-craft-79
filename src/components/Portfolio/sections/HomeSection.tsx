@@ -63,9 +63,12 @@ export const HomeSection = ({ name, role, portfolioData }: HomeSectionProps) => 
             </Button>
           </PopoverTrigger>
           <PopoverContent 
-            className="w-96 h-96 p-0" 
+            className="w-80 h-80 p-2 bg-background border shadow-lg z-50" 
             align="center"
-            side="top"
+            side="bottom"
+            sideOffset={10}
+            avoidCollisions={true}
+            collisionPadding={20}
           >
             <AIAssistant portfolioData={portfolioData} />
           </PopoverContent>
