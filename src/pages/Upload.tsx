@@ -45,11 +45,29 @@ const Upload = () => {
             <h1 className="text-4xl font-bold text-foreground">Portfolio Manager</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {hasData 
-                ? 'Manage your existing portfolio or upload a new resume to replace it.'
+                ? 'Welcome back! View your existing portfolio or manage your data below.'
                 : 'Upload your resume to automatically generate a beautiful portfolio.'
               }
             </p>
           </div>
+
+          {/* Quick Actions for Returning Users */}
+          {hasData && (
+            <div className="flex justify-center gap-4 flex-wrap">
+              <Button onClick={handleViewPortfolio} size="lg" className="flex items-center gap-2">
+                <Eye className="h-5 w-5" />
+                View My Portfolio
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => setShowUploadForm(!showUploadForm)}
+                className="flex items-center gap-2"
+              >
+                <Settings className="h-4 w-4" />
+                Manage Portfolio
+              </Button>
+            </div>
+          )}
 
           {/* Existing Portfolio Section - Primary for returning users */}
           {hasData && portfolioData && (
