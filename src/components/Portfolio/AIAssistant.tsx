@@ -31,14 +31,20 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
   }, []);
 
   const saveApiKey = async (key: string) => {
-    if (!key.trim()) return;
+    if (!key.trim()) {
+      console.log('Empty API key provided');
+      return;
+    }
     
+    console.log('Attempting to save API key:', key.substring(0, 10) + '...');
     setIsLoading(true);
     try {
       // Test the API key first
+      console.log('Testing API key...');
       await testGeminiAPI(key);
       
       // If test succeeds, save the key
+      console.log('API key test successful, saving to localStorage');
       localStorage.setItem('gemini_api_key', key);
       setApiKey(key);
       setShowSettings(false);
@@ -50,7 +56,9 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
         timestamp: new Date()
       };
       setMessages(prev => [...prev, successMessage]);
+      console.log('API key saved successfully');
     } catch (error) {
+      console.error('API key save failed:', error);
       // Show error message if API test fails
       const errorMessage: Message = {
         role: 'assistant',
@@ -64,8 +72,12 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
   };
 
   const testGeminiAPI = async (key: string) => {
+    console.log('Testing Gemini API with key:', key.substring(0, 10) + '...');
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
+      console.log('Making request to:', url.substring(0, 80) + '...');
+      
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,14 +91,26 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
         })
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
       if (!response.ok) {
-        throw new Error('API key validation failed');
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`API key validation failed: ${response.status} ${response.statusText}`);
       }
 
       const data = await response.json();
+      console.log('API Response data:', data);
+      
+      if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
+        throw new Error('Unexpected API response format');
+      }
+      
       return data.candidates[0].content.parts[0].text;
     } catch (error) {
-      throw new Error('Invalid API key or network error');
+      console.error('Gemini API Test Error:', error);
+      throw new Error(`Invalid API key or network error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
