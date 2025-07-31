@@ -200,7 +200,7 @@ export const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-emerald-950 flex items-center justify-center p-8">
-      <div className="w-full max-w-5xl space-y-6">
+      <div className="w-full max-w-7xl space-y-6">
         {/* Edit Button */}
         <div className="flex justify-end">
           <Button 
@@ -214,7 +214,7 @@ export const Portfolio = () => {
         </div>
         
         {/* Main Container */}
-        <div className="bg-portfolio-card rounded-3xl w-full h-[600px] flex flex-col transform hover:scale-[1.02] transition-all duration-300" 
+        <div className="bg-portfolio-card rounded-3xl w-full h-[700px] flex flex-col transform hover:scale-[1.02] transition-all duration-300" 
              style={{ 
                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 40px rgba(34, 197, 94, 0.1)',
                backdropFilter: 'blur(10px)'
