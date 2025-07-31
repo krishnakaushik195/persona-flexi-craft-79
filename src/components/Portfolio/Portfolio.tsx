@@ -200,7 +200,7 @@ export const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-emerald-950 flex items-center justify-center p-8">
-      <div className="w-full max-w-[1400px] space-y-6">
+      <div className="w-full max-w-7xl space-y-6">
         {/* Edit Button */}
         <div className="flex justify-end">
           <Button 
