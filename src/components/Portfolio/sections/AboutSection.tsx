@@ -7,7 +7,7 @@ export const AboutSection = ({ about, achievements }: AboutSectionProps) => {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-bold text-foreground mb-6">About Me</h2>
+        <h2 className="text-5xl font-bold text-foreground mb-8 text-center">About Me</h2>
         <p className="text-portfolio-text-muted leading-relaxed text-lg">
           {about}
         </p>

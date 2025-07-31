@@ -18,7 +18,7 @@ export const HomeSection = ({ name, role, personalInfo, portfolioData }: HomeSec
     <div className="relative w-full min-h-[500px] h-full flex flex-col justify-center items-center space-y-6 p-8">
       {/* User Information */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold text-foreground">{name}</h1>
+        <h1 className="text-6xl font-bold text-foreground">{name}</h1>
         <p className="text-xl text-muted-foreground">{role}</p>
         
         {/* LinkedIn-style info with separators */}

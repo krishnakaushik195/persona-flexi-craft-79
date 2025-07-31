@@ -13,7 +13,7 @@ export const ExperienceSection = ({ experience }: ExperienceSectionProps) => {
   if (!experience || experience.length === 0) {
     return (
       <div className="space-y-8">
-        <h2 className="text-3xl font-bold text-foreground">Experience</h2>
+        <h2 className="text-5xl font-bold text-foreground text-center">Experience</h2>
         <div className="bg-portfolio-card rounded-2xl p-8 text-center">
           <p className="text-portfolio-text-muted text-lg">No experience data available yet.</p>
         </div>
@@ -22,7 +22,7 @@ export const ExperienceSection = ({ experience }: ExperienceSectionProps) => {
   }
   return (
     <div className="space-y-8">
-      <h2 className="text-3xl font-bold text-foreground">Experience</h2>
+      <h2 className="text-5xl font-bold text-foreground text-center">Experience</h2>
       
       <div className="space-y-6">
         {experience.map((exp, index) => (

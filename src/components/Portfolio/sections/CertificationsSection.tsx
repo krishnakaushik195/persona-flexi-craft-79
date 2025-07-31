@@ -13,7 +13,7 @@ export const CertificationsSection = ({ certifications }: CertificationsSectionP
   if (!certifications || certifications.length === 0) {
     return (
       <div className="space-y-8">
-        <h2 className="text-3xl font-bold text-foreground">Certifications</h2>
+        <h2 className="text-5xl font-bold text-foreground text-center">Certifications</h2>
         <div className="bg-portfolio-card rounded-2xl p-8 text-center">
           <p className="text-portfolio-text-muted text-lg">No certifications available yet.</p>
         </div>
@@ -22,7 +22,7 @@ export const CertificationsSection = ({ certifications }: CertificationsSectionP
   }
   return (
     <div className="space-y-8">
-      <h2 className="text-3xl font-bold text-foreground">Certifications</h2>
+      <h2 className="text-5xl font-bold text-foreground text-center">Certifications</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {certifications.map((cert, index) => (
