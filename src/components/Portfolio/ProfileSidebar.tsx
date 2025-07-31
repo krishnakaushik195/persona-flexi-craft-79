@@ -19,7 +19,7 @@ export const ProfileSidebar = ({ personalInfo }: ProfileSidebarProps) => {
     <div className="bg-portfolio-sidebar p-8 rounded-3xl h-fit sticky top-8">
       <div className="text-center space-y-6">
         {/* Profile Photo */}
-        <div className="relative mx-auto w-32 h-32">
+        <div className="relative mx-auto w-40 h-40">
           <div className="w-full h-full rounded-full bg-secondary/20 border-4 border-primary/30 flex items-center justify-center overflow-hidden">
             {personalInfo.photo_url ? (
               <img 
