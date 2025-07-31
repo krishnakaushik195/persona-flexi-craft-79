@@ -254,16 +254,6 @@ export const Portfolio = () => {
             </div>
           </div>
         </div>
-        
-        {/* AI Settings - Only in Edit Mode */}
-        {isEditMode && (
-          <AISettings />
-        )}
-        
-        {/* AI Assistant - Always visible */}
-        {!isEditMode && (
-          <AIAssistant portfolioData={currentData} />
-        )}
       </div>
     </div>
   );
