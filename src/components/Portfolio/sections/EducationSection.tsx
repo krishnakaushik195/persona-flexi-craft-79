@@ -10,6 +10,16 @@ interface EducationSectionProps {
 }
 
 export const EducationSection = ({ education }: EducationSectionProps) => {
+  if (!education || education.length === 0) {
+    return (
+      <div className="space-y-8">
+        <h2 className="text-3xl font-bold text-foreground">Education</h2>
+        <div className="bg-portfolio-card rounded-2xl p-8 text-center">
+          <p className="text-portfolio-text-muted text-lg">No education data available yet.</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="space-y-8">
       <h2 className="text-3xl font-bold text-foreground">Education</h2>

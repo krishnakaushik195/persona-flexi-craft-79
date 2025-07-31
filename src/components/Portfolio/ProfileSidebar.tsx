@@ -31,7 +31,7 @@ export const ProfileSidebar = ({ personalInfo }: ProfileSidebarProps) => {
               <User size={48} className="text-muted-foreground" />
             )}
           </div>
-          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/20 to-accent/20"></div>
+          
         </div>
 
         {/* Name & Tagline */}
