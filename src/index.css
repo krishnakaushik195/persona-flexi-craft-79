@@ -6,32 +6,32 @@
 
 @layer base {
   :root {
-    --background: 160 48% 85%;
-    --foreground: 210 38% 95%;
+    --background: 0 0% 100%;
+    --foreground: 210 50% 12%;
 
-    --card: 210 50% 12%;
-    --card-foreground: 210 38% 95%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 50% 12%;
 
-    --popover: 210 50% 12%;
-    --popover-foreground: 210 38% 95%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 50% 12%;
 
     --primary: 160 100% 45%;
-    --primary-foreground: 210 50% 12%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 50% 20%;
-    --secondary-foreground: 210 38% 95%;
+    --secondary: 210 15% 95%;
+    --secondary-foreground: 210 50% 12%;
 
-    --muted: 210 50% 15%;
-    --muted-foreground: 210 20% 70%;
+    --muted: 210 15% 96%;
+    --muted-foreground: 210 25% 45%;
 
     --accent: 160 60% 50%;
-    --accent-foreground: 210 50% 12%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 210 50% 25%;
-    --input: 210 50% 20%;
+    --border: 210 20% 85%;
+    --input: 0 0% 100%;
     --ring: 160 100% 45%;
 
     /* Custom portfolio tokens */
