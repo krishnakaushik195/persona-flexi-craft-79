@@ -7,15 +7,17 @@ import {
   Award, 
   GraduationCap,
   Building2, 
-  Mail 
+  Mail,
+  Bot 
 } from "lucide-react";
 
 interface NavigationProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
+  isEditMode?: boolean;
 }
 
-export const Navigation = ({ activeSection, onSectionChange }: NavigationProps) => {
+export const Navigation = ({ activeSection, onSectionChange, isEditMode }: NavigationProps) => {
   const navItems = [
     { id: "home", label: "Home", icon: Home },
     { id: "about", label: "About", icon: User },
@@ -25,6 +27,7 @@ export const Navigation = ({ activeSection, onSectionChange }: NavigationProps) 
     { id: "certifications", label: "Certifications", icon: Award },
     { id: "education", label: "Education", icon: GraduationCap },
     { id: "contact", label: "Contact", icon: Mail },
+    ...(isEditMode ? [{ id: "ai-settings", label: "AI Settings", icon: Bot }] : []),
   ];
 
   return (

@@ -144,6 +144,8 @@ export const Portfolio = () => {
               onSave={(data) => handleSaveData("Education", data)}
             />
           );
+        case "ai-settings":
+          return <AISettings />;
         default:
           return (
             <EditableProfileSection 
@@ -224,6 +226,7 @@ export const Portfolio = () => {
               <Navigation 
                 activeSection={activeSection}
                 onSectionChange={setActiveSection}
+                isEditMode={isEditMode}
               />
               
               {/* Upload Resume Button - Inside Edit Mode */}
