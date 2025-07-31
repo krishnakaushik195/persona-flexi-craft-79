@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ProfileSidebar } from "./ProfileSidebar";
 import { UploadButton } from "./UploadButton";
 import { AIAssistant } from "./AIAssistant";
+import { AISettings } from "./AISettings";
 import { Navigation } from "./Navigation";
 import { HomeSection } from "./sections/HomeSection";
 import { AboutSection } from "./sections/AboutSection";
@@ -227,7 +228,9 @@ export const Portfolio = () => {
               
               {/* Upload Resume Button - Inside Edit Mode */}
               {isEditMode && (
-                <UploadButton />
+                <div className="flex gap-2">
+                  <UploadButton />
+                </div>
               )}
             </div>
           </div>
@@ -251,6 +254,16 @@ export const Portfolio = () => {
             </div>
           </div>
         </div>
+        
+        {/* AI Settings - Only in Edit Mode */}
+        {isEditMode && (
+          <AISettings />
+        )}
+        
+        {/* AI Assistant - Always visible */}
+        {!isEditMode && (
+          <AIAssistant portfolioData={currentData} />
+        )}
       </div>
     </div>
   );

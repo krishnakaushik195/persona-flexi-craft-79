@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Bot, User, Key, Settings } from "lucide-react";
+import { Send, Bot, User } from "lucide-react";
 import { PortfolioData } from "@/hooks/usePortfolioData";
 
 interface Message {
@@ -20,7 +20,6 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [apiKey, setApiKey] = useState("");
-  const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
     const savedApiKey = localStorage.getItem('gemini_api_key');
@@ -30,38 +29,6 @@ export const AIAssistant = ({ portfolioData }: AIAssistantProps) => {
     }
   }, []);
 
-  const saveApiKey = async (key: string) => {
-    if (!key.trim()) return;
-    
-    setIsLoading(true);
-    try {
-      // Test the API key first
-      await testGeminiAPI(key);
-      
-      // If test succeeds, save the key
-      localStorage.setItem('gemini_api_key', key);
-      setApiKey(key);
-      setShowSettings(false);
-      
-      // Add a success message
-      const successMessage: Message = {
-        role: 'assistant',
-        content: 'API key configured successfully! You can now ask me anything about the portfolio.',
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, successMessage]);
-    } catch (error) {
-      // Show error message if API test fails
-      const errorMessage: Message = {
-        role: 'assistant',
-        content: `Failed to configure API key: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const testGeminiAPI = async (key: string) => {
     console.log('Testing Gemini API key...');
@@ -184,7 +151,12 @@ User question: ${userMessage}`;
     if (!question.trim()) return;
 
     if (!apiKey) {
-      setShowSettings(true);
+      const errorMessage: Message = {
+        role: 'assistant',
+        content: 'Please ask the portfolio owner to configure the AI Assistant in edit mode.',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
       return;
     }
 
@@ -220,92 +192,21 @@ User question: ${userMessage}`;
 
   return (
     <div className="bg-portfolio-card rounded-2xl p-6 space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="p-2 bg-primary/20 rounded-xl">
-            <Bot size={20} className="text-primary" />
-          </div>
-          <h3 className="text-lg font-semibold text-foreground">AI Assistant</h3>
+      <div className="flex items-center space-x-3">
+        <div className="p-2 bg-primary/20 rounded-xl">
+          <Bot size={20} className="text-primary" />
         </div>
-        <Button
-          size="icon"
-          variant="ghost"
-          onClick={() => setShowSettings(!showSettings)}
-          className="rounded-xl"
-        >
-          <Settings size={16} />
-        </Button>
+        <h3 className="text-lg font-semibold text-foreground">AI Assistant</h3>
       </div>
-
-      {showSettings && (
-        <div className="bg-secondary/30 rounded-xl p-4 space-y-3">
-          <div className="flex items-center space-x-2">
-            <Key size={16} className="text-primary" />
-            <span className="text-sm font-medium">Gemini API Key</span>
-          </div>
-          <div className="space-y-2">
-            <Input
-              type="password"
-              placeholder="Enter your Gemini API key..."
-              className="bg-background"
-              onKeyDown={async (e) => {
-                if (e.key === 'Enter') {
-                  await saveApiKey((e.target as HTMLInputElement).value);
-                }
-              }}
-              disabled={isLoading}
-            />
-            <div className="flex space-x-2">
-              <Button
-                onClick={async (e) => {
-                  const input = e.currentTarget.parentElement?.previousElementSibling as HTMLInputElement;
-                  await saveApiKey(input.value);
-                }}
-                size="sm"
-                disabled={isLoading}
-                className="flex-1"
-              >
-                {isLoading ? 'Testing...' : 'Save'}
-              </Button>
-              {apiKey && (
-                <Button
-                  onClick={() => {
-                    localStorage.removeItem('gemini_api_key');
-                    setApiKey('');
-                    setMessages([]);
-                    setShowSettings(false);
-                  }}
-                  variant="destructive"
-                  size="sm"
-                  className="flex-1"
-                >
-                  Clear API Key
-                </Button>
-              )}
-            </div>
-          </div>
-          <p className="text-xs text-muted-foreground">
-            Get your API key from{" "}
-            <a 
-              href="https://makersuite.google.com/app/apikey" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              Google AI Studio
-            </a>
-          </p>
-        </div>
-      )}
       
-      {!apiKey && !showSettings && (
+      {!apiKey && (
         <div className="bg-secondary/30 rounded-xl p-4">
           <div className="flex items-start space-x-3">
             <div className="p-1 bg-primary/20 rounded-lg">
               <Bot size={14} className="text-primary" />
             </div>
             <p className="text-sm text-portfolio-text-muted">
-              Hi! I'm your AI assistant. Please configure your Gemini API key to start chatting!
+              Hi! I'm your AI assistant. The portfolio owner needs to configure me in edit mode to start chatting!
             </p>
           </div>
         </div>
