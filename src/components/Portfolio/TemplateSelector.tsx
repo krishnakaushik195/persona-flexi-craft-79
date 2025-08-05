@@ -54,7 +54,7 @@ export const TemplateSelector = ({ currentTemplate, onTemplateChange }: Template
       </Button>
       
       {isOpen && (
-        <div className="absolute top-full mt-2 right-0 z-50 w-80 bg-card border rounded-lg shadow-lg p-4">
+        <div className="absolute top-full mt-2 right-0 z-50 w-80 max-w-[90vw] bg-card border rounded-lg shadow-lg p-4 transform -translate-x-0 sm:-translate-x-0">
           <h3 className="text-lg font-semibold mb-4">Choose Template</h3>
           <div className="space-y-3">
             {templates.map((template) => {
