@@ -3,7 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Upload, FileText, CheckCircle, AlertCircle, Loader2, Camera, SkipForward } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { ImageUploadWithEditor } from './ImageUploadWithEditor';
 import { uploadResume } from '@/services/resumeApi';
 import { usePortfolioData, PortfolioData } from '@/hooks/usePortfolioData';
 import { useToast } from '@/hooks/use-toast';
@@ -20,16 +21,21 @@ export const ResumeUpload = ({ onUploadSuccess }: ResumeUploadProps) => {
   const [warning, setWarning] = useState<string | null>(null);
   const [showImageUpload, setShowImageUpload] = useState(false);
   const [portfolioData, setPortfolioData] = useState<PortfolioData | null>(null);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { savePortfolioData } = usePortfolioData();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = async (file: File) => {
-    if (!file.type.includes('pdf')) {
-      setError('Please upload a PDF file');
+    const supportedTypes = [
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+      'application/msword', // .doc
+      'text/plain', // .txt
+      'application/rtf' // .rtf
+    ];
+    
+    if (!supportedTypes.some(type => file.type === type)) {
+      setError('Please upload a PDF, Word document (.doc/.docx), RTF, or text file');
       return;
     }
 
@@ -111,39 +117,19 @@ export const ResumeUpload = ({ onUploadSuccess }: ResumeUploadProps) => {
     }
   };
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      if (file.type.startsWith('image/')) {
-        setSelectedImage(file);
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setImagePreview(e.target?.result as string);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        toast({
-          title: "Invalid file type",
-          description: "Please select an image file",
-          variant: "destructive",
-        });
-      }
-    }
-  };
-
   const handleSkipImage = () => {
     if (portfolioData) {
       onUploadSuccess(portfolioData);
     }
   };
 
-  const handleSaveWithImage = () => {
+  const handleSaveWithImage = (imageUrl: string) => {
     if (portfolioData) {
       const updatedData = {
         ...portfolioData,
         personal_info: {
           ...portfolioData.personal_info,
-          photo_url: imagePreview || portfolioData.personal_info.photo_url
+          photo_url: imageUrl
         }
       };
       savePortfolioData(updatedData);
@@ -153,58 +139,12 @@ export const ResumeUpload = ({ onUploadSuccess }: ResumeUploadProps) => {
 
   if (showImageUpload) {
     return (
-      <Card className="w-full max-w-2xl mx-auto">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl">Add Profile Picture (Optional)</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="text-center space-y-4">
-            {imagePreview ? (
-              <div className="space-y-4">
-                <img 
-                  src={imagePreview} 
-                  alt="Profile preview" 
-                  className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-primary/20"
-                />
-                <p className="text-sm text-muted-foreground">Profile picture preview</p>
-              </div>
-            ) : (
-              <div className="w-32 h-32 rounded-full mx-auto bg-muted flex items-center justify-center">
-                <Camera className="h-8 w-8 text-muted-foreground" />
-              </div>
-            )}
-          </div>
-
-          <div className="space-y-4">
-            <input
-              ref={imageInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleImageSelect}
-              className="hidden"
-            />
-            
-            <Button 
-              onClick={() => imageInputRef.current?.click()}
-              variant="outline" 
-              className="w-full"
-            >
-              <Camera className="h-4 w-4 mr-2" />
-              {selectedImage ? 'Change Photo' : 'Select Photo'}
-            </Button>
-          </div>
-
-          <div className="flex gap-3">
-            <Button onClick={handleSkipImage} variant="outline" className="flex-1">
-              <SkipForward className="h-4 w-4 mr-2" />
-              Skip for Now
-            </Button>
-            <Button onClick={handleSaveWithImage} className="flex-1">
-              Continue to Portfolio
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      <ImageUploadWithEditor
+        onSkip={handleSkipImage}
+        onSave={handleSaveWithImage}
+        title="Add Profile Picture (Optional)"
+        description="Upload and edit your profile picture"
+      />
     );
   }
 
@@ -225,14 +165,14 @@ export const ResumeUpload = ({ onUploadSuccess }: ResumeUploadProps) => {
           onDragOver={handleDrag}
           onDrop={handleDrop}
         >
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".pdf"
-            onChange={handleFileSelect}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-            disabled={uploading}
-          />
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".pdf,.doc,.docx,.txt,.rtf"
+              onChange={handleFileSelect}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              disabled={uploading}
+            />
           
           <div className="space-y-4">
             {uploading ? (
@@ -247,7 +187,7 @@ export const ResumeUpload = ({ onUploadSuccess }: ResumeUploadProps) => {
                 <Upload className="h-12 w-12 mx-auto text-muted-foreground" />
                 <div className="space-y-2">
                   <p className="text-lg font-medium">Drop your resume here or click to browse</p>
-                  <p className="text-sm text-muted-foreground">PDF files only, max 10MB</p>
+                  <p className="text-sm text-muted-foreground">PDF, Word (.doc/.docx), RTF, or text files, max 10MB</p>
                 </div>
                 <Button 
                   variant="outline" 
@@ -255,7 +195,7 @@ export const ResumeUpload = ({ onUploadSuccess }: ResumeUploadProps) => {
                   className="mx-auto"
                 >
                   <FileText className="h-4 w-4 mr-2" />
-                  Select PDF File
+                  Select Resume File
                 </Button>
               </>
             )}
