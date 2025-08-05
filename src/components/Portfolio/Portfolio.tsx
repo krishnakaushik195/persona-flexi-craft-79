@@ -4,6 +4,10 @@ import { UploadButton } from "./UploadButton";
 import { AIAssistant } from "./AIAssistant";
 import { AISettings } from "./AISettings";
 import { Navigation } from "./Navigation";
+import { TemplateSelector } from "./TemplateSelector";
+import { ClassicTemplate } from "./templates/ClassicTemplate";
+import { ModernTemplate } from "./templates/ModernTemplate";
+import { CreativeTemplate } from "./templates/CreativeTemplate";
 import { HomeSection } from "./sections/HomeSection";
 import { AboutSection } from "./sections/AboutSection";
 import { ProjectsSection } from "./sections/ProjectsSection";
@@ -31,6 +35,9 @@ export const Portfolio = () => {
     return urlParams.get('edit') === 'true';
   });
   const [localPortfolioData, setLocalPortfolioData] = useState(null);
+  const [currentTemplate, setCurrentTemplate] = useState(() => {
+    return localStorage.getItem('portfolio_template') || 'classic';
+  });
   const { portfolioData, loading } = usePortfolioData();
   const { toast } = useToast();
 
@@ -88,6 +95,41 @@ export const Portfolio = () => {
       description: `${section} data has been updated successfully.`,
     });
     setIsEditMode(false);
+  };
+
+  const handleTemplateChange = (template: string) => {
+    setCurrentTemplate(template);
+    localStorage.setItem('portfolio_template', template);
+  };
+
+  const renderTemplate = (children: React.ReactNode) => {
+    const templateProps = {
+      children,
+      personalInfo: currentData.personal_info,
+      activeSection,
+      onSectionChange: setActiveSection,
+      isEditMode
+    };
+
+    switch (currentTemplate) {
+      case 'modern':
+        return <ModernTemplate {...templateProps} />;
+      case 'creative':
+        return <CreativeTemplate {...templateProps} />;
+      default:
+        return <ClassicTemplate {...templateProps} />;
+    }
+  };
+
+  const getBackgroundClass = () => {
+    switch (currentTemplate) {
+      case 'modern':
+        return "min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-8";
+      case 'creative':
+        return "min-h-screen bg-gradient-to-br from-orange-900 via-red-900 to-pink-900 flex items-center justify-center p-8";
+      default:
+        return "min-h-screen bg-gradient-to-br from-black via-gray-900 to-emerald-950 flex items-center justify-center p-8";
+    }
   };
 
   const renderSection = () => {
@@ -199,10 +241,14 @@ export const Portfolio = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-emerald-950 flex items-center justify-center p-8">
+    <div className={getBackgroundClass()}>
       <div className="w-full max-w-7xl space-y-6">
-        {/* Edit Button */}
-        <div className="flex justify-end">
+        {/* Control Bar */}
+        <div className="flex justify-between items-center">
+          <TemplateSelector 
+            currentTemplate={currentTemplate}
+            onTemplateChange={handleTemplateChange}
+          />
           <Button 
             onClick={() => setIsEditMode(!isEditMode)}
             variant="outline"
@@ -213,50 +259,8 @@ export const Portfolio = () => {
           </Button>
         </div>
         
-        {/* Main Container */}
-        <div className="bg-portfolio-card rounded-3xl w-[1370px] h-[600px] flex flex-col transform hover:scale-[1.02] transition-all duration-300" 
-             style={{ 
-               boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 40px rgba(34, 197, 94, 0.1)',
-               backdropFilter: 'blur(10px)'
-             }}>
-          
-          {/* Navigation Header */}
-          <div className="p-6 pb-3">
-            <div className="bg-secondary/20 rounded-2xl p-3 flex justify-between items-center">
-              <Navigation 
-                activeSection={activeSection}
-                onSectionChange={setActiveSection}
-                isEditMode={isEditMode}
-              />
-              
-              {/* Upload Resume Button - Inside Edit Mode */}
-              {isEditMode && (
-                <div className="flex gap-2">
-                  <UploadButton />
-                </div>
-              )}
-            </div>
-          </div>
-          
-          {/* Content Area */}
-          <div className="flex-1 px-6 pb-6 overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
-              {/* Sidebar */}
-              <div className="lg:col-span-3 h-full overflow-y-auto">
-                <ProfileSidebar personalInfo={currentData.personal_info} />
-              </div>
-              
-              {/* Main Content */}
-              <div className="lg:col-span-9 h-full overflow-hidden">
-                <div className="bg-secondary/20 rounded-2xl h-full p-2 overflow-y-auto">
-                  <div className="animate-fade-in h-full">
-                    {renderSection()}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Template Container */}
+        {renderTemplate(renderSection())}
       </div>
     </div>
   );
