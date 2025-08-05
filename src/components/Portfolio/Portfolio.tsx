@@ -8,6 +8,7 @@ import { TemplateSelector } from "./TemplateSelector";
 import { ClassicTemplate } from "./templates/ClassicTemplate";
 import { ModernTemplate } from "./templates/ModernTemplate";
 import { CreativeTemplate } from "./templates/CreativeTemplate";
+import { HeroTemplate } from "./templates/HeroTemplate";
 import { HomeSection } from "./sections/HomeSection";
 import { AboutSection } from "./sections/AboutSection";
 import { ProjectsSection } from "./sections/ProjectsSection";
@@ -116,6 +117,8 @@ export const Portfolio = () => {
         return <ModernTemplate {...templateProps} />;
       case 'creative':
         return <CreativeTemplate {...templateProps} />;
+      case 'hero':
+        return <HeroTemplate {...templateProps} />;
       default:
         return <ClassicTemplate {...templateProps} />;
     }
@@ -127,6 +130,8 @@ export const Portfolio = () => {
         return "min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-8";
       case 'creative':
         return "min-h-screen bg-gradient-to-br from-orange-900 via-red-900 to-pink-900 flex items-center justify-center p-8";
+      case 'hero':
+        return "min-h-screen bg-background";
       default:
         return "min-h-screen bg-gradient-to-br from-black via-gray-900 to-emerald-950 flex items-center justify-center p-8";
     }
@@ -242,26 +247,49 @@ export const Portfolio = () => {
 
   return (
     <div className={getBackgroundClass()}>
-      <div className="w-full max-w-7xl space-y-6">
-        {/* Control Bar */}
-        <div className="flex justify-between items-center">
-          <TemplateSelector 
-            currentTemplate={currentTemplate}
-            onTemplateChange={handleTemplateChange}
-          />
-          <Button 
-            onClick={() => setIsEditMode(!isEditMode)}
-            variant="outline"
-            className="flex items-center gap-2"
-          >
-            <Edit size={16} />
-            {isEditMode ? "Exit Edit" : "Edit Mode"}
-          </Button>
+      {currentTemplate === 'hero' ? (
+        <div className="w-full space-y-6">
+          {/* Control Bar for Hero Template */}
+          <div className="absolute top-4 left-4 right-4 z-50 flex justify-between items-center">
+            <TemplateSelector 
+              currentTemplate={currentTemplate}
+              onTemplateChange={handleTemplateChange}
+            />
+            <Button 
+              onClick={() => setIsEditMode(!isEditMode)}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <Edit size={16} />
+              {isEditMode ? "Exit Edit" : "Edit Mode"}
+            </Button>
+          </div>
+          
+          {/* Hero Template Container */}
+          {renderTemplate(renderSection())}
         </div>
-        
-        {/* Template Container */}
-        {renderTemplate(renderSection())}
-      </div>
+      ) : (
+        <div className="w-full max-w-7xl space-y-6">
+          {/* Control Bar for Other Templates */}
+          <div className="flex justify-between items-center">
+            <TemplateSelector 
+              currentTemplate={currentTemplate}
+              onTemplateChange={handleTemplateChange}
+            />
+            <Button 
+              onClick={() => setIsEditMode(!isEditMode)}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <Edit size={16} />
+              {isEditMode ? "Exit Edit" : "Edit Mode"}
+            </Button>
+          </div>
+          
+          {/* Template Container */}
+          {renderTemplate(renderSection())}
+        </div>
+      )}
     </div>
   );
 };

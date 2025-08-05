@@ -29,6 +29,13 @@ const templates = [
     description: "Bold and artistic portfolio design",
     icon: Palette,
     preview: "bg-gradient-to-br from-orange-900 via-red-900 to-pink-900"
+  },
+  {
+    id: "hero",
+    name: "Hero",
+    description: "Fullscreen hero layout with horizontal nav",
+    icon: Layout,
+    preview: "bg-gradient-to-br from-blue-50 via-white to-yellow-100"
   }
 ];
 

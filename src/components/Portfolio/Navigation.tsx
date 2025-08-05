@@ -15,7 +15,7 @@ interface NavigationProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
   isEditMode?: boolean;
-  variant?: "default" | "pills" | "creative";
+  variant?: "default" | "pills" | "creative" | "horizontal";
 }
 
 export const Navigation = ({ activeSection, onSectionChange, isEditMode, variant = "default" }: NavigationProps) => {
@@ -37,6 +37,8 @@ export const Navigation = ({ activeSection, onSectionChange, isEditMode, variant
         return "flex space-x-1 bg-purple-900/30 rounded-full p-1";
       case "creative":
         return "flex space-x-1";
+      case "horizontal":
+        return "flex gap-8";
       default:
         return "flex flex-wrap gap-2 justify-center items-center px-4";
     }
@@ -56,6 +58,12 @@ export const Navigation = ({ activeSection, onSectionChange, isEditMode, variant
             ? "bg-orange-500/80 text-white" 
             : "text-orange-200 hover:bg-orange-600/30"
         }`;
+      case "horizontal":
+        return `text-base font-medium transition-colors hover:text-primary ${
+          isActive 
+            ? "text-primary border-b-2 border-primary pb-1" 
+            : "text-muted-foreground"
+        }`;
       default:
         return "flex items-center justify-center gap-1.5 px-3 py-2 min-w-fit";
     }
@@ -68,14 +76,14 @@ export const Navigation = ({ activeSection, onSectionChange, isEditMode, variant
         const isActive = activeSection === item.id;
         
         return (
-          variant === "pills" || variant === "creative" ? (
+          variant === "pills" || variant === "creative" || variant === "horizontal" ? (
             <button
               key={item.id}
               onClick={() => onSectionChange(item.id)}
               className={getButtonClasses(isActive)}
             >
-              <Icon size={14} />
-              <span className="hidden sm:inline text-xs whitespace-nowrap">{item.label}</span>
+              {variant !== "horizontal" && <Icon size={14} />}
+              <span className={variant === "horizontal" ? "block" : "hidden sm:inline text-xs whitespace-nowrap"}>{item.label}</span>
             </button>
           ) : (
             <Button
