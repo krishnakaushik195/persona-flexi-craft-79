@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProfileSidebar } from "./ProfileSidebar";
 import { UploadButton } from "./UploadButton";
 import { AIAssistant } from "./AIAssistant";
 import { AISettings } from "./AISettings";
+import { ThemeEditor } from "./ThemeEditor";
 import { Navigation } from "./Navigation";
 
 import { ClassicTemplate } from "./templates/ClassicTemplate";
@@ -39,8 +40,21 @@ export const Portfolio = () => {
   const [currentTemplate, setCurrentTemplate] = useState(() => {
     return localStorage.getItem('portfolio_template') || 'classic';
   });
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    return localStorage.getItem('portfolio_theme') || 'classic';
+  });
   const { portfolioData, loading } = usePortfolioData();
   const { toast } = useToast();
+
+  // Listen for theme changes
+  useEffect(() => {
+    const handleThemeChange = (event: CustomEvent) => {
+      setCurrentTheme(event.detail.id);
+    };
+    
+    window.addEventListener('themeChanged', handleThemeChange as EventListener);
+    return () => window.removeEventListener('themeChanged', handleThemeChange as EventListener);
+  }, []);
 
   // Use local data if available, otherwise use fetched data
   const currentData = localPortfolioData || portfolioData;
@@ -125,15 +139,27 @@ export const Portfolio = () => {
   };
 
   const getBackgroundClass = () => {
+    const themeData = localStorage.getItem('portfolio_theme_data');
+    let themeGradient = "from-black via-gray-900 to-emerald-950";
+    
+    if (themeData) {
+      try {
+        const theme = JSON.parse(themeData);
+        themeGradient = theme.gradient;
+      } catch (e) {
+        // Fallback to default
+      }
+    }
+
     switch (currentTemplate) {
       case 'modern':
-        return "min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-8";
+        return `min-h-screen bg-gradient-to-br ${themeGradient} flex items-center justify-center p-8`;
       case 'creative':
-        return "min-h-screen bg-gradient-to-br from-orange-900 via-red-900 to-pink-900 flex items-center justify-center p-8";
+        return `min-h-screen bg-gradient-to-br ${themeGradient} flex items-center justify-center p-8`;
       case 'hero':
         return "min-h-screen bg-background";
       default:
-        return "min-h-screen bg-gradient-to-br from-black via-gray-900 to-emerald-950 flex items-center justify-center p-8";
+        return `min-h-screen bg-gradient-to-br ${themeGradient} flex items-center justify-center p-8`;
     }
   };
 
@@ -191,6 +217,8 @@ export const Portfolio = () => {
               onSave={(data) => handleSaveData("Education", data)}
             />
           );
+        case "theme-editor":
+          return <ThemeEditor />;
         case "ai-settings":
           return <AISettings />;
         default:

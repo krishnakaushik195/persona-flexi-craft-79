@@ -8,7 +8,8 @@ import {
   GraduationCap,
   Building2, 
   Mail,
-  Bot 
+  Bot,
+  Palette 
 } from "lucide-react";
 
 interface NavigationProps {
@@ -28,7 +29,10 @@ export const Navigation = ({ activeSection, onSectionChange, isEditMode, variant
     { id: "certifications", label: "Certifications", icon: Award },
     { id: "education", label: "Education", icon: GraduationCap },
     { id: "contact", label: "Contact", icon: Mail },
-    ...(isEditMode ? [{ id: "ai-settings", label: "AI Settings", icon: Bot }] : []),
+    ...(isEditMode ? [
+      { id: "theme-editor", label: "Theme", icon: Palette },
+      { id: "ai-settings", label: "AI Settings", icon: Bot }
+    ] : []),
   ];
 
   const getNavigationClasses = () => {
