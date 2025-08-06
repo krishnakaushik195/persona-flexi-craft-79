@@ -6,15 +6,25 @@ import { ResumeUpload } from '@/components/Upload/ResumeUpload';
 import { usePortfolioData, PortfolioData } from '@/hooks/usePortfolioData';
 import { FileText, User, Eye, Upload as UploadIcon, Trash2, Plus, Settings } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { TemplateSelector } from '@/components/Portfolio/TemplateSelector';
 import { useState } from 'react';
 
 const Upload = () => {
   const navigate = useNavigate();
   const { portfolioData, hasData, clearPortfolioData, loading } = usePortfolioData();
   const [showUploadForm, setShowUploadForm] = useState(!hasData);
+  const [selectedTemplate, setSelectedTemplate] = useState(() => {
+    return localStorage.getItem('portfolio_template') || 'classic';
+  });
 
   const handleUploadSuccess = (data: PortfolioData) => {
+    // Save the selected template to localStorage
+    localStorage.setItem('portfolio_template', selectedTemplate);
     navigate('/portfolio');
+  };
+
+  const handleTemplateChange = (template: string) => {
+    setSelectedTemplate(template);
   };
 
   const handleViewPortfolio = () => {
@@ -136,6 +146,18 @@ const Upload = () => {
                         <strong>Warning:</strong> Uploading a new resume will completely replace your existing portfolio data. This action cannot be undone.
                       </AlertDescription>
                     </Alert>
+                    
+                    {/* Template Selection for existing users */}
+                    <div className="space-y-4">
+                      <h4 className="font-medium">Choose Template (Optional)</h4>
+                      <div className="flex justify-center">
+                        <TemplateSelector 
+                          currentTemplate={selectedTemplate}
+                          onTemplateChange={handleTemplateChange}
+                        />
+                      </div>
+                    </div>
+                    
                     <ResumeUpload onUploadSuccess={handleUploadSuccess} />
                   </CardContent>
                 </Card>
@@ -152,6 +174,28 @@ const Upload = () => {
                   Upload your resume and let AI create a stunning portfolio for you
                 </p>
               </div>
+              
+              {/* Template Selection */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Settings className="h-5 w-5" />
+                    Choose Your Template
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-center">
+                    <TemplateSelector 
+                      currentTemplate={selectedTemplate}
+                      onTemplateChange={handleTemplateChange}
+                    />
+                  </div>
+                  <p className="text-sm text-muted-foreground text-center mt-4">
+                    Select a template that best fits your style. You can change this later.
+                  </p>
+                </CardContent>
+              </Card>
+              
               <ResumeUpload onUploadSuccess={handleUploadSuccess} />
             </div>
           )}

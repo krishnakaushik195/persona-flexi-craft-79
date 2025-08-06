@@ -4,7 +4,7 @@ import { UploadButton } from "./UploadButton";
 import { AIAssistant } from "./AIAssistant";
 import { AISettings } from "./AISettings";
 import { Navigation } from "./Navigation";
-import { TemplateSelector } from "./TemplateSelector";
+
 import { ClassicTemplate } from "./templates/ClassicTemplate";
 import { ModernTemplate } from "./templates/ModernTemplate";
 import { CreativeTemplate } from "./templates/CreativeTemplate";
@@ -250,7 +250,7 @@ export const Portfolio = () => {
       {currentTemplate === 'hero' ? (
         <div className="w-full space-y-6">
           {/* Control Bar for Hero Template */}
-          <div className="absolute top-4 left-4 right-4 z-50 flex justify-between items-center">
+          <div className="absolute top-4 left-4 right-4 z-50 flex justify-end items-center">
             <Button 
               onClick={() => setIsEditMode(!isEditMode)}
               variant="outline"
@@ -259,10 +259,6 @@ export const Portfolio = () => {
               <Edit size={16} />
               {isEditMode ? "Exit Edit" : "Edit Mode"}
             </Button>
-            <TemplateSelector 
-              currentTemplate={currentTemplate}
-              onTemplateChange={handleTemplateChange}
-            />
           </div>
           
           {/* Hero Template Container */}
@@ -271,7 +267,7 @@ export const Portfolio = () => {
       ) : (
         <div className="w-full max-w-7xl space-y-6">
           {/* Control Bar for Other Templates */}
-          <div className="flex justify-between items-center">
+          <div className="flex justify-end items-center">
             <Button 
               onClick={() => setIsEditMode(!isEditMode)}
               variant="outline"
@@ -280,10 +276,6 @@ export const Portfolio = () => {
               <Edit size={16} />
               {isEditMode ? "Exit Edit" : "Edit Mode"}
             </Button>
-            <TemplateSelector 
-              currentTemplate={currentTemplate}
-              onTemplateChange={handleTemplateChange}
-            />
           </div>
           
           {/* Template Container */}
