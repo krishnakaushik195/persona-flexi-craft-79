@@ -251,10 +251,6 @@ export const Portfolio = () => {
         <div className="w-full space-y-6">
           {/* Control Bar for Hero Template */}
           <div className="absolute top-4 left-4 right-4 z-50 flex justify-between items-center">
-            <TemplateSelector 
-              currentTemplate={currentTemplate}
-              onTemplateChange={handleTemplateChange}
-            />
             <Button 
               onClick={() => setIsEditMode(!isEditMode)}
               variant="outline"
@@ -263,6 +259,10 @@ export const Portfolio = () => {
               <Edit size={16} />
               {isEditMode ? "Exit Edit" : "Edit Mode"}
             </Button>
+            <TemplateSelector 
+              currentTemplate={currentTemplate}
+              onTemplateChange={handleTemplateChange}
+            />
           </div>
           
           {/* Hero Template Container */}
@@ -272,10 +272,6 @@ export const Portfolio = () => {
         <div className="w-full max-w-7xl space-y-6">
           {/* Control Bar for Other Templates */}
           <div className="flex justify-between items-center">
-            <TemplateSelector 
-              currentTemplate={currentTemplate}
-              onTemplateChange={handleTemplateChange}
-            />
             <Button 
               onClick={() => setIsEditMode(!isEditMode)}
               variant="outline"
@@ -284,6 +280,10 @@ export const Portfolio = () => {
               <Edit size={16} />
               {isEditMode ? "Exit Edit" : "Edit Mode"}
             </Button>
+            <TemplateSelector 
+              currentTemplate={currentTemplate}
+              onTemplateChange={handleTemplateChange}
+            />
           </div>
           
           {/* Template Container */}
