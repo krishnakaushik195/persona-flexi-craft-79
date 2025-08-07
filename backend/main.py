@@ -13,6 +13,7 @@ from pdfminer.pdfparser import PDFParser
 from pdfminer.pdfdocument import PDFDocument
 from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfpage import resolve1
+import hashlib
 
 # Load .env variables
 load_dotenv()
@@ -37,6 +38,8 @@ resume_schema = {
     "minProperties": 1,
     "additionalProperties": True
 }
+
+parse_cache = {}
 
 # --- PDF Utils ---
 def extract_text_from_pdf(file_path):
@@ -75,27 +78,8 @@ def validate_json(data):
         return False, str(ve)
 
 def cross_verify_and_enhance_json(original_json, resume_text, links):
-    prompt = f"""
-You are a meticulous resume auditor.
-
-Given the resume text and hyperlinks, ensure the following JSON is:
-1. Complete
-2. Correct
-3. Contains all sections and values
-
-Resume Text:
-{resume_text}
-
-Hyperlinks:
-{chr(10).join(links)}
-
-JSON:
-{json.dumps(original_json, indent=2)}
-
-Return corrected JSON only.
-"""
-    response = model.generate_content(prompt)
-    return fallback_json_parser(response.text.strip())
+    # Fast path: skip second LLM pass for speed
+    return original_json
 
 
 # --- API Endpoint ---
@@ -110,6 +94,11 @@ async def parse_resume(file: UploadFile = File(...)):
             content = await file.read()
             tmp.write(content)
             tmp_path = tmp.name
+
+        # Compute file hash for caching
+        file_hash = hashlib.sha256(content).hexdigest()
+        if file_hash in parse_cache:
+            return parse_cache[file_hash]
 
         # Extract content
         resume_text = extract_text_from_pdf(tmp_path)
@@ -200,19 +189,18 @@ Return JSON only.
 """
 
         # Get Gemini response
-        response = model.generate_content(prompt)
+        response = model.generate_content(prompt, generation_config={"response_mime_type": "application/json", "temperature": 0.2})
         raw_text = response.text.strip()
         resume_json = fallback_json_parser(raw_text)
 
         if resume_json is None:
             raise HTTPException(status_code=500, detail="Gemini did not return valid JSON.")
 
-        resume_json = cross_verify_and_enhance_json(resume_json, resume_text, resume_links)
         is_valid, err = validate_json(resume_json)
 
         if not is_valid:
             return JSONResponse(status_code=200, content={"warning": f"Schema Warning: {err}", "json": resume_json})
-
+        parse_cache[file_hash] = resume_json
         return resume_json
 
     except Exception as e:
