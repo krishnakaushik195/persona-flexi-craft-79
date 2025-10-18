@@ -1,6 +1,6 @@
 import { PortfolioData } from '@/hooks/usePortfolioData';
 
-const API_BASE_URL = 'http://16.171.137.183:8080'; // Your FastAPI backend
+const API_BASE_URL = 'http://16.171.137.183:8000'; // Your FastAPI backend
 
 export interface ResumeUploadResponse extends PortfolioData {
   warning?: string;
